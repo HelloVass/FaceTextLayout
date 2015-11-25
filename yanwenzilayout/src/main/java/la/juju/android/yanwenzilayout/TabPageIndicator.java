@@ -12,11 +12,11 @@ import android.widget.HorizontalScrollView;
 public class TabPageIndicator extends HorizontalScrollView {
 
   public TabPageIndicator(Context context) {
-    super(context,null);
+    super(context, null);
   }
 
   public TabPageIndicator(Context context, AttributeSet attrs) {
-    super(context, attrs,0);
+    super(context, attrs, 0);
   }
 
   public TabPageIndicator(Context context, AttributeSet attrs, int defStyleAttr) {

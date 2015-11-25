@@ -10,4 +10,8 @@
   tools:context="la.juju.android.yanwenzilayoutdemo.SampleActivity">
 
 
+  <la.juju.android.yanwenzilayout.YanWenZiLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"/>
+
 </RelativeLayout>
