@@ -12,10 +12,6 @@ public class FaceText implements Parcelable {
 
   public int id;
 
-  public int row;
-
-  public int column;
-
   public String content;
 
   public FaceText() {
@@ -29,15 +25,11 @@ public class FaceText implements Parcelable {
   @Override public void writeToParcel(Parcel dest, int flags) {
     dest.writeInt(this.id);
     dest.writeString(this.content);
-    dest.writeInt(this.row);
-    dest.writeInt(this.column);
   }
 
   protected FaceText(Parcel in) {
     this.id = in.readInt();
     this.content = in.readString();
-    this.row = in.readInt();
-    this.column = in.readInt();
   }
 
   public static final Parcelable.Creator<FaceText> CREATOR = new Parcelable.Creator<FaceText>() {
