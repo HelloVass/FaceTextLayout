@@ -9,6 +9,10 @@
     android:supportsRtl="true"
     android:theme="@style/AppTheme">
     <activity android:name=".SampleActivity">
+
+    </activity>
+
+    <activity android:name=".TestActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
 

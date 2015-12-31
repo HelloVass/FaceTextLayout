@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:dot_view_layout="http://schemas.android.com/apk/res-auto"
+  xmlns:tab_page_indicator="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical">
+
+
+  <android.support.v4.view.ViewPager
+    android:id="@+id/view_pager"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    android:background="@android:color/holo_blue_light" />
+
+  <la.juju.android.yanwenzilayout.widgets.DotViewLayout
+    android:id="@+id/dot_view_layout"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:background="#69F0AE"
+    dot_view_layout:indicator_selected_src="@mipmap/circle_indicator_solid"
+    dot_view_layout:indicator_unselected_src="@mipmap/circle_indicator_stroke" />
+
+
+  <la.juju.android.yanwenzilayout.widgets.TabPageIndicator
+    android:id="@+id/tab_page_indicator"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    tab_page_indicator:normal_tab_text_color="@android:color/black"
+    tab_page_indicator:selected_tab_text_color="@android:color/holo_green_light" />
+
+</LinearLayout>
