@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import java.util.List;
+import la.juju.android.yanwenzilayout.adapter.FaceTextPagerAdapter;
 import la.juju.android.yanwenzilayout.widgets.DotViewLayout;
 
 /**
@@ -20,7 +21,7 @@ public class FaceLayoutDemoActivity extends AppCompatActivity {
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_face_demo);
+    setContentView(R.layout.activity_face_text_demo);
     setUpView();
   }
 

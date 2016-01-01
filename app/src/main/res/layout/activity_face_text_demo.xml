@@ -9,9 +9,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
-    android:background="@android:color/holo_blue_light"
-    indicator_space:indicator_selected_src="@mipmap/circle_indicator_solid"
-    indicator_space:indicator_unselected_src="@mipmap/circle_indicator_stroke" />
+    indicator_space:indicator_selected_src="@mipmap/ic_circle_indicator_solid"
+    indicator_space:indicator_unselected_src="@mipmap/ic_circle_indicator_stroke" />
 
 
   <android.support.v4.view.ViewPager

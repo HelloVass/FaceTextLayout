@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import java.util.ArrayList;
+import la.juju.android.yanwenzilayout.adapter.FaceTextLineAdapter;
 import la.juju.android.yanwenzilayout.entities.FaceText;
 
 /**
@@ -21,7 +22,7 @@ public class FaceTextFragment extends Fragment {
 
   private ArrayList<ArrayList<FaceText>> mPageFaceTextList;
 
-  private FaceTextAdapter mFaceTextAdapter;
+  private FaceTextLineAdapter mFaceTextLineAdapter;
 
   private RecyclerView mRecyclerView;
 
@@ -47,7 +48,7 @@ public class FaceTextFragment extends Fragment {
 
   @Override public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    mFaceTextAdapter = new FaceTextAdapter(mContext);
+    mFaceTextLineAdapter = new FaceTextLineAdapter(mContext);
   }
 
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,8 +62,8 @@ public class FaceTextFragment extends Fragment {
   private void setUpView(View view) {
     mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
     mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-    mFaceTextAdapter.setPageFaceTextList(mPageFaceTextList);
-    mRecyclerView.setAdapter(mFaceTextAdapter);
+    mFaceTextLineAdapter.setPageFaceTextList(mPageFaceTextList);
+    mRecyclerView.setAdapter(mFaceTextLineAdapter);
   }
 
   /**

@@ -1,4 +1,4 @@
-package la.juju.android.yanwenzilayoutdemo;
+package la.juju.android.yanwenzilayout.utils;
 
 import android.content.Context;
 

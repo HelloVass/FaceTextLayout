@@ -1,4 +1,4 @@
-package la.juju.android.yanwenzilayoutdemo;
+package la.juju.android.yanwenzilayout.utils;
 
 /**
  * Created by HelloVass on 15/12/31.

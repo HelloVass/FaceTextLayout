@@ -1,4 +1,4 @@
-package la.juju.android.yanwenzilayoutdemo;
+package la.juju.android.yanwenzilayout.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

@@ -6,6 +6,8 @@ import android.text.TextPaint;
 import java.util.ArrayList;
 import java.util.List;
 import la.juju.android.yanwenzilayout.entities.FaceText;
+import la.juju.android.yanwenzilayout.utils.FaceTextProvider;
+import la.juju.android.yanwenzilayout.utils.ScreenUtil;
 
 /**
  * Created by HelloVass on 15/12/31.
@@ -23,7 +25,7 @@ public class FaceTextHelper implements FaceTextProvider {
    */
   private static ArrayList<FaceText> getFaceTextList() {
     ArrayList<FaceText> faceTextList = new ArrayList<>();
-    for (String content : FACE_TEXT_SOURCE) {
+    for (String content : FaceTextProvider.FACE_TEXT_SOURCE) {
       FaceText faceText = new FaceText();
       faceText.content = content;
       faceTextList.add(faceText);

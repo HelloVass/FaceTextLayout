@@ -1,4 +1,4 @@
-package la.juju.android.yanwenzilayoutdemo;
+package la.juju.android.yanwenzilayout.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,24 +10,27 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
+import la.juju.android.yanwenzilayout.R;
 import la.juju.android.yanwenzilayout.entities.FaceText;
+import la.juju.android.yanwenzilayout.utils.DensityUtil;
 
 /**
  * Created by HelloVass on 16/1/1.
  */
-public class FaceTextAdapter extends RecyclerView.Adapter<FaceTextAdapter.FaceTextViewHolder> {
+public class FaceTextLineAdapter
+    extends RecyclerView.Adapter<FaceTextLineAdapter.FaceTextViewHolder> {
 
   private ArrayList<ArrayList<FaceText>> mPageFaceTextList;
 
   private Context mContext;
 
-  public FaceTextAdapter(Context context) {
+  public FaceTextLineAdapter(Context context) {
     mContext = context;
   }
 
   @Override public FaceTextViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    return new FaceTextViewHolder(
-        LayoutInflater.from(parent.getContext()).inflate(R.layout.item_face_text, parent, false));
+    return new FaceTextViewHolder(LayoutInflater.from(parent.getContext())
+        .inflate(R.layout.listitem_face_text, parent, false));
   }
 
   @Override public void onBindViewHolder(FaceTextViewHolder holder, int position) {
@@ -37,7 +40,7 @@ public class FaceTextAdapter extends RecyclerView.Adapter<FaceTextAdapter.FaceTe
     for (int i = 0; i < lineFaceTextList.size(); i++) {
       FaceText faceText = lineFaceTextList.get(i);
       View faceTextContainer =
-          LayoutInflater.from(mContext).inflate(R.layout.layout_face_text, null);
+          LayoutInflater.from(mContext).inflate(R.layout.container_face_text, null);
       holder.mLineContainer.addView(faceTextContainer);
       TextView textView = (TextView) faceTextContainer.findViewById(R.id.tv_face_text);
       textView.setText(faceText.content);
@@ -61,7 +64,7 @@ public class FaceTextAdapter extends RecyclerView.Adapter<FaceTextAdapter.FaceTe
   public static class FaceTextViewHolder extends RecyclerView.ViewHolder {
 
     public LinearLayout mLineContainer;
-
+    
     public FaceTextViewHolder(View itemView) {
       super(itemView);
       mLineContainer = (LinearLayout) itemView.findViewById(R.id.ll_line_container);
