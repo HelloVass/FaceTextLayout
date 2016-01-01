@@ -20,17 +20,15 @@ public class FaceLayoutDemoActivity extends AppCompatActivity {
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
     setContentView(R.layout.activity_face_demo);
+    setUpView();
+  }
 
-    mFaceTextPagerAdapter = new FaceTextPagerAdapter(getSupportFragmentManager());
-
+  private void setUpView() {
     mViewPager = (ViewPager) findViewById(R.id.pager);
     mDotViewLayout = (DotViewLayout) findViewById(R.id.dotview_layout);
     mFaceTextPagerAdapter = new FaceTextPagerAdapter(getSupportFragmentManager());
     updateFaceTextViewPager(FaceTextHelper.calculateFragmentCount());
-
-    mViewPager.setOffscreenPageLimit(mFaceTextPagerAdapter.getCount());
     mDotViewLayout.setViewPager(mViewPager);
   }
 
@@ -40,5 +38,6 @@ public class FaceLayoutDemoActivity extends AppCompatActivity {
     }
     mFaceTextPagerAdapter.setFragments(fragments);
     mViewPager.setAdapter(mFaceTextPagerAdapter);
+    mViewPager.setOffscreenPageLimit(mFaceTextPagerAdapter.getCount());
   }
 }

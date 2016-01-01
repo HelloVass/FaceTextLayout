@@ -36,14 +36,17 @@ public class FaceTextAdapter extends RecyclerView.Adapter<FaceTextAdapter.FaceTe
 
     for (int i = 0; i < lineFaceTextList.size(); i++) {
       FaceText faceText = lineFaceTextList.get(i);
-      TextView textView = new TextView(mContext);
+      View faceTextContainer =
+          LayoutInflater.from(mContext).inflate(R.layout.layout_face_text, null);
+      holder.mLineContainer.addView(faceTextContainer);
+      TextView textView = (TextView) faceTextContainer.findViewById(R.id.tv_face_text);
       textView.setText(faceText.content);
       textView.setGravity(Gravity.CENTER);
       LinearLayout.LayoutParams layoutParams =
-          (LinearLayout.LayoutParams) textView.getLayoutParams();
+          (LinearLayout.LayoutParams) faceTextContainer.getLayoutParams();
       layoutParams.weight = 1;
       layoutParams.width = 0;
-      layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+      layoutParams.height = DensityUtil.dip2px(mContext, 48);
     }
   }
 
@@ -57,8 +60,11 @@ public class FaceTextAdapter extends RecyclerView.Adapter<FaceTextAdapter.FaceTe
 
   public static class FaceTextViewHolder extends RecyclerView.ViewHolder {
 
+    public LinearLayout mLineContainer;
+
     public FaceTextViewHolder(View itemView) {
       super(itemView);
+      mLineContainer = (LinearLayout) itemView.findViewById(R.id.ll_line_container);
     }
   }
 }

@@ -16,10 +16,6 @@ public class FaceTextPagerAdapter extends FragmentPagerAdapter {
     super(fm);
   }
 
-  public void setFragments(List<? extends Fragment> fragments) {
-    mFragments = fragments;
-  }
-
   @Override public Fragment getItem(int position) {
     if (mFragments == null) throw new IllegalStateException("记得要传入 Fragment 数组啊，大兄弟...");
 
@@ -28,5 +24,9 @@ public class FaceTextPagerAdapter extends FragmentPagerAdapter {
 
   @Override public int getCount() {
     return mFragments == null ? 0 : mFragments.size();
+  }
+
+  public void setFragments(List<? extends Fragment> fragments) {
+    mFragments = fragments;
   }
 }

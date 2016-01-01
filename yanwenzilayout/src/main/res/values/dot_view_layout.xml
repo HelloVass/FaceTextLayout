@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <declare-styleable name="DotViewLayout">
-    <attr name="indicator_space" format="integer" />
+    <attr name="indicator_space" format="dimension" />
     <attr name="indicator_selected_src" format="reference"/>
     <attr name="indicator_unselected_src" format="reference"/>
   </declare-styleable>
