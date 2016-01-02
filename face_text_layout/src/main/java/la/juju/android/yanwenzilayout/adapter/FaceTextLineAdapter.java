@@ -2,7 +2,6 @@ package la.juju.android.yanwenzilayout.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,18 +38,20 @@ public class FaceTextLineAdapter
 
     for (int i = 0; i < lineFaceTextList.size(); i++) {
       FaceText faceText = lineFaceTextList.get(i);
-      View faceTextContainer =
-          LayoutInflater.from(mContext).inflate(R.layout.container_face_text, null);
-      holder.mLineContainer.addView(faceTextContainer);
-      TextView textView = (TextView) faceTextContainer.findViewById(R.id.tv_face_text);
-      textView.setText(faceText.content);
-      textView.setGravity(Gravity.CENTER);
-      LinearLayout.LayoutParams layoutParams =
-          (LinearLayout.LayoutParams) faceTextContainer.getLayoutParams();
-      layoutParams.weight = 1;
-      layoutParams.width = 0;
-      layoutParams.height = DensityUtil.dip2px(mContext, 48);
+      TextView faceTextContainer =
+          (TextView) LayoutInflater.from(mContext).inflate(R.layout.container_face_text, null);
+      LinearLayout.LayoutParams layoutParams = generateFaceTextContainerLayoutParams();
+      holder.mLineContainer.addView(faceTextContainer, layoutParams);
+      faceTextContainer.setText(faceText.content);
     }
+  }
+
+  private LinearLayout.LayoutParams generateFaceTextContainerLayoutParams() {
+    LinearLayout.LayoutParams layoutParams =
+        new LinearLayout.LayoutParams(0, DensityUtil.dip2px(mContext, 48), 1.0f);
+    layoutParams.leftMargin = DensityUtil.dip2px(mContext, 4);
+    layoutParams.rightMargin = DensityUtil.dip2px(mContext, 4);
+    return layoutParams;
   }
 
   @Override public int getItemCount() {
@@ -64,7 +65,7 @@ public class FaceTextLineAdapter
   public static class FaceTextViewHolder extends RecyclerView.ViewHolder {
 
     public LinearLayout mLineContainer;
-    
+
     public FaceTextViewHolder(View itemView) {
       super(itemView);
       mLineContainer = (LinearLayout) itemView.findViewById(R.id.ll_line_container);
