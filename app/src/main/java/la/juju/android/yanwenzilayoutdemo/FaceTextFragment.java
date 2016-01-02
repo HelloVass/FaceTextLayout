@@ -61,6 +61,7 @@ public class FaceTextFragment extends Fragment {
 
   private void setUpView(View view) {
     mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+    mRecyclerView.setHasFixedSize(true);
     mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
     mFaceTextLineAdapter.setPageFaceTextList(mPageFaceTextList);
     mRecyclerView.setAdapter(mFaceTextLineAdapter);
