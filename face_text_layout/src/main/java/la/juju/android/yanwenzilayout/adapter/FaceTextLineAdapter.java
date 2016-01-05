@@ -49,8 +49,10 @@ public class FaceTextLineAdapter
   private LinearLayout.LayoutParams generateFaceTextContainerLayoutParams() {
     LinearLayout.LayoutParams layoutParams =
         new LinearLayout.LayoutParams(0, DensityUtil.dip2px(mContext, 48), 1.0f);
-    layoutParams.leftMargin = DensityUtil.dip2px(mContext, 2);
-    layoutParams.rightMargin = DensityUtil.dip2px(mContext, 2);
+    layoutParams.leftMargin =
+        mContext.getResources().getDimensionPixelOffset(R.dimen.face_text_view_left_margin);
+    layoutParams.rightMargin =
+        mContext.getResources().getDimensionPixelOffset(R.dimen.face_text_view_right_margin);
     return layoutParams;
   }
 

@@ -7,7 +7,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 import la.juju.android.yanwenzilayout.entities.FaceText;
-import la.juju.android.yanwenzilayout.utils.DensityUtil;
 import la.juju.android.yanwenzilayout.utils.FaceTextProvider;
 import la.juju.android.yanwenzilayout.utils.ScreenUtil;
 
@@ -128,6 +127,10 @@ public class FaceTextHelper implements FaceTextProvider {
    * 生成 leftMargin 和 rightMargin
    */
   private static int generateHorizontalMargin() {
-    return DensityUtil.dip2px(FaceApp.get(), 2) * 2;
+    int leftMargin =
+        FaceApp.get().getResources().getDimensionPixelOffset(R.dimen.face_text_view_left_margin);
+    int rightMargin =
+        FaceApp.get().getResources().getDimensionPixelOffset(R.dimen.face_text_view_right_margin);
+    return leftMargin + rightMargin;
   }
 }
