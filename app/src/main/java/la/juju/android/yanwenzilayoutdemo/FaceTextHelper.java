@@ -1,11 +1,13 @@
 package la.juju.android.yanwenzilayoutdemo;
 
-import android.graphics.Rect;
 import android.support.v4.app.Fragment;
-import android.text.TextPaint;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 import la.juju.android.yanwenzilayout.entities.FaceText;
+import la.juju.android.yanwenzilayout.utils.DensityUtil;
 import la.juju.android.yanwenzilayout.utils.FaceTextProvider;
 import la.juju.android.yanwenzilayout.utils.ScreenUtil;
 
@@ -69,9 +71,10 @@ public class FaceTextHelper implements FaceTextProvider {
     // 将当前页添加到 页List 中
     allPageFaceTextList.add(pageFaceTextList);
 
+    TextView faceTextView = getFaceTextView();
     for (int i = 0; i < faceTextList.size(); i++) {
       FaceText faceText = faceTextList.get(i);
-      int itemWidth = measureFaceTextWidth(faceText);
+      int itemWidth = measureFaceTextWidth(faceTextView, faceText) + generateHorizontalMargin();
       lineWidth += itemWidth;
       columnCount++;
 
@@ -101,12 +104,27 @@ public class FaceTextHelper implements FaceTextProvider {
   }
 
   /**
+   * 获取一个 TextView
+   */
+  private static TextView getFaceTextView() {
+    return (TextView) LayoutInflater.from(FaceApp.get())
+        .inflate(R.layout.layout_face_text, null)
+        .findViewById(R.id.tv_face_text);
+  }
+
+  /**
    * 测量 颜文字 的长度
    */
-  private static int measureFaceTextWidth(FaceText faceText) {
-    Rect bounds = new Rect();
-    TextPaint faceTextPaint = new TextPaint();
-    faceTextPaint.getTextBounds(faceText.content, 0, faceText.content.length(), bounds);
-    return bounds.width();
+  private static int measureFaceTextWidth(TextView faceTextView, FaceText faceText) {
+    if (faceTextView == null || faceText == null) {
+      return 0;
+    }
+    faceTextView.setText(faceText.content);
+    faceTextView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+    return faceTextView.getMeasuredWidth();
+  }
+
+  private static int generateHorizontalMargin() {
+    return DensityUtil.dip2px(FaceApp.get(), 2) * 2;
   }
 }

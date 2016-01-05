@@ -38,19 +38,19 @@ public class FaceTextLineAdapter
 
     for (int i = 0; i < lineFaceTextList.size(); i++) {
       FaceText faceText = lineFaceTextList.get(i);
-      TextView faceTextContainer =
-          (TextView) LayoutInflater.from(mContext).inflate(R.layout.container_face_text, null);
+      TextView faceTextView =
+          (TextView) LayoutInflater.from(mContext).inflate(R.layout.view_face_text, null);
       LinearLayout.LayoutParams layoutParams = generateFaceTextContainerLayoutParams();
-      holder.mLineContainer.addView(faceTextContainer, layoutParams);
-      faceTextContainer.setText(faceText.content);
+      holder.mLineContainer.addView(faceTextView, layoutParams);
+      faceTextView.setText(faceText.content);
     }
   }
 
   private LinearLayout.LayoutParams generateFaceTextContainerLayoutParams() {
     LinearLayout.LayoutParams layoutParams =
-        new LinearLayout.LayoutParams(0, DensityUtil.dip2px(mContext, 48), 1.0f);
-    layoutParams.leftMargin = DensityUtil.dip2px(mContext, 4);
-    layoutParams.rightMargin = DensityUtil.dip2px(mContext, 4);
+        new LinearLayout.LayoutParams(0, DensityUtil.dip2px(mContext, 60), 1.0f);
+    layoutParams.leftMargin = DensityUtil.dip2px(mContext, 2);
+    layoutParams.rightMargin = DensityUtil.dip2px(mContext, 2);
     return layoutParams;
   }
 
