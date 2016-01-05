@@ -87,7 +87,7 @@ public class FaceTextHelper implements FaceTextProvider {
         lineWidth = itemWidth;
         columnCount = 1;
 
-        // 切换到下一个 Fragment
+        // 切换到下一个页面
         if (currentLineNum > PAGE_ROW_COUNT) {
           currentLineNum = 0;
           pageFaceTextList = new ArrayList<>();
@@ -124,6 +124,9 @@ public class FaceTextHelper implements FaceTextProvider {
     return faceTextView.getMeasuredWidth();
   }
 
+  /**
+   * 生成 leftMargin 和 rightMargin
+   */
   private static int generateHorizontalMargin() {
     return DensityUtil.dip2px(FaceApp.get(), 2) * 2;
   }
