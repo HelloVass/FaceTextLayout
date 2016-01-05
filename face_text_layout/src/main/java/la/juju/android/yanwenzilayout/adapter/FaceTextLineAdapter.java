@@ -36,10 +36,11 @@ public class FaceTextLineAdapter
 
     List<FaceText> lineFaceTextList = mPageFaceTextList.get(position);
 
+    final LayoutInflater inflater = LayoutInflater.from(mContext);
     for (int i = 0; i < lineFaceTextList.size(); i++) {
       FaceText faceText = lineFaceTextList.get(i);
       TextView faceTextContainer =
-          (TextView) LayoutInflater.from(mContext).inflate(R.layout.container_face_text, null);
+          (TextView) inflater.inflate(R.layout.container_face_text, holder.mLineContainer);
       LinearLayout.LayoutParams layoutParams = generateFaceTextContainerLayoutParams();
       holder.mLineContainer.addView(faceTextContainer, layoutParams);
       faceTextContainer.setText(faceText.content);
