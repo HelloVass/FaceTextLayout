@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/FaceTextLayout.iml" filepath="$PROJECT_DIR$/FaceTextLayout.iml" />
+      <module fileurl="file://$PROJECT_DIR$/YanWenZiLayoutDemo.iml" filepath="$PROJECT_DIR$/YanWenZiLayoutDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/face_text_layout/face_text_layout.iml" filepath="$PROJECT_DIR$/face_text_layout/face_text_layout.iml" />
     </modules>
