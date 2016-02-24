@@ -5,7 +5,7 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="wrap_content"
   android:layout_height="wrap_content"
-  android:background="@drawable/bg_face_text"
+  android:background="@drawable/item_face_text"
   android:clickable="true"
   android:gravity="center"
   android:maxLines="1"

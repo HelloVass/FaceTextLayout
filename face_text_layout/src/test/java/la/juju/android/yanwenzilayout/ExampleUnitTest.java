@@ -1,4 +1,4 @@
-package la.juju.android.yanwenzilayout;
+package la.juju.www.android.ftil;
 
 import org.junit.Test;
 

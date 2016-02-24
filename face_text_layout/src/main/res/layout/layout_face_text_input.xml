@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <android.support.v4.view.ViewPager
+    android:id="@+id/pager"
+    android:layout_width="match_parent"
+    android:layout_height="268dp" />
+
+  <la.juju.www.android.ftil.widgets.DotViewLayout
+    android:id="@+id/dotview_layout"
+    android:layout_width="match_parent"
+    android:layout_height="20.25dp"
+    android:layout_below="@id/pager"
+    app:selectedSrc="@mipmap/indicator_select"
+    app:unselectedSrc="@mipmap/indicator_unselect" />
+</merge>

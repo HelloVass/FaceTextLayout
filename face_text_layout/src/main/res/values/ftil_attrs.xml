@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <declare-styleable name="DotViewLayout">
+    <attr name="indicatorSpacing" format="dimension" />
+    <attr name="selectedSrc" format="reference" />
+    <attr name="unselectedSrc" format="reference" />
+  </declare-styleable>
+
+</resources>
