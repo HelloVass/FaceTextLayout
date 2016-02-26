@@ -1,4 +1,4 @@
-package la.juju.www.android.ftil.utils;
+package la.juju.android.ftil.utils;
 
 import android.content.Context;
 import android.util.DisplayMetrics;

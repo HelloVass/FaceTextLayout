@@ -1,11 +1,11 @@
-package la.juju.www.android.yanwenzilayoutdemo;
+package la.juju.android.yanwenzilayoutdemo;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
-import la.juju.www.android.ftil.listeners.OnFaceTextClickListener;
-import la.juju.www.android.ftil.entities.FaceText;
-import la.juju.www.android.ftil.widgets.FaceTextInputLayout;
+import la.juju.android.ftil.listeners.OnFaceTextClickListener;
+import la.juju.android.ftil.entities.FaceText;
+import la.juju.android.ftil.widgets.FaceTextInputLayout;
 
 /**
  * Created by HelloVass on 15/12/31.

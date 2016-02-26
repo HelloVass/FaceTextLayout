@@ -1,4 +1,4 @@
-package la.juju.www.android.ftil.widgets;
+package la.juju.android.ftil.widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -10,7 +10,7 @@ import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import la.juju.www.android.ftil.R;
+import la.juju.android.ftil.R;
 
 /**
  * Created by HelloVass on 15/11/25.

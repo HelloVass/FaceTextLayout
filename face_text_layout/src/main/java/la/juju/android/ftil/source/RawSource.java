@@ -1,4 +1,4 @@
-package la.juju.www.android.ftil.source;
+package la.juju.android.ftil.source;
 
 import android.content.Context;
 import com.google.gson.Gson;
@@ -7,7 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
-import la.juju.www.android.ftil.entities.FaceText;
+import la.juju.android.ftil.entities.FaceText;
 
 /**
  * Created by HelloVass on 16/2/26.

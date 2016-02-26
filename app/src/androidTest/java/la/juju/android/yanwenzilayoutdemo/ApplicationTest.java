@@ -1,4 +1,4 @@
-package la.juju.www.android.yanwenzilayoutdemo;
+package la.juju.android.yanwenzilayoutdemo;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

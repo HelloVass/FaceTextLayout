@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="268dp" />
 
-  <la.juju.www.android.ftil.widgets.DotViewLayout
+  <la.juju.android.ftil.widgets.DotViewLayout
     android:id="@+id/dotview_layout"
     android:layout_width="match_parent"
     android:layout_height="20.25dp"

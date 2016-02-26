@@ -1,4 +1,4 @@
-package la.juju.www.android.ftil;
+package la.juju.android.ftil;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

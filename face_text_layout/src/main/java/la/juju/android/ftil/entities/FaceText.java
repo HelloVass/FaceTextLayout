@@ -1,4 +1,4 @@
-package la.juju.www.android.ftil.entities;
+package la.juju.android.ftil.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;

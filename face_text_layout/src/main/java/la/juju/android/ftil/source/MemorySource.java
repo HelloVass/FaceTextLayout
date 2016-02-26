@@ -1,8 +1,8 @@
-package la.juju.www.android.ftil.source;
+package la.juju.android.ftil.source;
 
 import java.util.ArrayList;
 import java.util.List;
-import la.juju.www.android.ftil.entities.FaceText;
+import la.juju.android.ftil.entities.FaceText;
 
 /**
  * Created by HelloVass on 16/2/26.

@@ -1,4 +1,4 @@
-package la.juju.www.android.ftil.adapters;
+package la.juju.android.ftil.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,10 +8,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.util.List;
-import la.juju.www.android.ftil.R;
-import la.juju.www.android.ftil.entities.FaceText;
-import la.juju.www.android.ftil.listeners.OnFaceTextClickListener;
-import la.juju.www.android.ftil.utils.DensityUtil;
+import la.juju.android.ftil.R;
+import la.juju.android.ftil.entities.FaceText;
+import la.juju.android.ftil.listeners.OnFaceTextClickListener;
+import la.juju.android.ftil.utils.DensityUtil;
 
 /**
  * Created by HelloVass on 16/1/1.

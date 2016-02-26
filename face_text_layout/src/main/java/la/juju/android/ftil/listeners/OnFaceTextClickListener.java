@@ -1,6 +1,6 @@
-package la.juju.www.android.ftil.listeners;
+package la.juju.android.ftil.listeners;
 
-import la.juju.www.android.ftil.entities.FaceText;
+import la.juju.android.ftil.entities.FaceText;
 
 /**
  * Created by HelloVass on 16/2/24.

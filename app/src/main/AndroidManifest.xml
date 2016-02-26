@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
-  package="la.juju.www.android.yanwenzilayoutdemo"
+  package="la.juju.android.yanwenzilayoutdemo"
   xmlns:android="http://schemas.android.com/apk/res/android">
 
   <application

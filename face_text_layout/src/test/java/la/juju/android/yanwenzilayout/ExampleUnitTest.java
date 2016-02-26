@@ -1,4 +1,4 @@
-package la.juju.www.android.ftil;
+package la.juju.android.ftil;
 
 import org.junit.Test;
 

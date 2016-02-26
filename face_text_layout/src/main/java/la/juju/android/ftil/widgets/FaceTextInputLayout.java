@@ -1,4 +1,4 @@
-package la.juju.www.android.ftil.widgets;
+package la.juju.android.ftil.widgets;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
@@ -9,9 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import java.util.List;
-import la.juju.www.android.ftil.listeners.OnFaceTextClickListener;
-import la.juju.www.android.ftil.R;
-import la.juju.www.android.ftil.utils.FaceTextInputLayoutHelper;
+import la.juju.android.ftil.listeners.OnFaceTextClickListener;
+import la.juju.android.ftil.R;
+import la.juju.android.ftil.utils.FaceTextInputLayoutHelper;
 
 /**
  * Created by HelloVass on 16/2/24.

@@ -1,4 +1,4 @@
-package la.juju.www.android.ftil.utils;
+package la.juju.android.ftil.utils;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,12 +8,12 @@ import android.view.View;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
-import la.juju.www.android.ftil.R;
-import la.juju.www.android.ftil.adapters.FaceTextInputLineAdapter;
-import la.juju.www.android.ftil.entities.FaceText;
-import la.juju.www.android.ftil.listeners.OnFaceTextClickListener;
-import la.juju.www.android.ftil.source.FaceTextProvider;
-import la.juju.www.android.ftil.source.RawSource;
+import la.juju.android.ftil.R;
+import la.juju.android.ftil.adapters.FaceTextInputLineAdapter;
+import la.juju.android.ftil.entities.FaceText;
+import la.juju.android.ftil.listeners.OnFaceTextClickListener;
+import la.juju.android.ftil.source.FaceTextProvider;
+import la.juju.android.ftil.source.RawSource;
 
 /**
  * Created by HelloVass on 16/2/24.
@@ -35,7 +35,7 @@ public class FaceTextInputLayoutHelper {
 
   private FaceTextInputLayoutHelper(Context context) {
     mContext = context;
-    mFaceTextProvider = new RawSource(context, R.raw.face_text);
+    mFaceTextProvider = new RawSource(context,R.raw.face_text);
     mFaceTextInputLineAdapterList = new ArrayList<>();
   }
 

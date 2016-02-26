@@ -4,7 +4,7 @@
   android:layout_height="match_parent">
 
 
-  <la.juju.www.android.ftil.widgets.FaceTextInputLayout
+  <la.juju.android.ftil.widgets.FaceTextInputLayout
     android:id="@+id/tv_face_text_input_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
