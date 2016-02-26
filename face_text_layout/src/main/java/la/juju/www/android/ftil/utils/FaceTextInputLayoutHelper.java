@@ -8,31 +8,41 @@ import android.view.View;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
-import la.juju.www.android.ftil.listeners.OnFaceTextClickListener;
 import la.juju.www.android.ftil.R;
 import la.juju.www.android.ftil.adapters.FaceTextInputLineAdapter;
 import la.juju.www.android.ftil.entities.FaceText;
+import la.juju.www.android.ftil.listeners.OnFaceTextClickListener;
+import la.juju.www.android.ftil.source.FaceTextProvider;
+import la.juju.www.android.ftil.source.RawSource;
 
 /**
  * Created by HelloVass on 16/2/24.
  */
-public class FaceTextInputLayoutHelper implements FaceTextProvider {
+public class FaceTextInputLayoutHelper {
 
   // 每页的行数
   private static final int PAGE_ROW_COUNT = 3;
   // 每页的最大列数
   private static final int PAGE_MAX_COLUMN_COUNT = 4;
 
+  private static FaceTextInputLayoutHelper sFaceTextInputLayoutHelper;
+
   private Context mContext;
+
+  private FaceTextProvider mFaceTextProvider;
 
   private List<FaceTextInputLineAdapter> mFaceTextInputLineAdapterList;
 
   private FaceTextInputLayoutHelper(Context context) {
     mContext = context;
+    mFaceTextProvider = new RawSource(context, R.raw.face_text);
     mFaceTextInputLineAdapterList = new ArrayList<>();
   }
 
-  public static FaceTextInputLayoutHelper newInstance(Context context) {
+  public static FaceTextInputLayoutHelper getInstance(Context context) {
+    if (sFaceTextInputLayoutHelper == null) {
+      sFaceTextInputLayoutHelper = new FaceTextInputLayoutHelper(context);
+    }
     return new FaceTextInputLayoutHelper(context);
   }
 
@@ -40,7 +50,7 @@ public class FaceTextInputLayoutHelper implements FaceTextProvider {
    * 生成所有“颜文字”页面
    */
   public List<RecyclerView> generateAllPage() {
-    ArrayList<ArrayList<ArrayList<FaceText>>> allPageFaceTextList = getAllPageFaceTextList();
+    List<List<List<FaceText>>> allPageFaceTextList = getAllPageFaceTextList();
     List<RecyclerView> pageList = new ArrayList<>();
     for (int i = 0; i < allPageFaceTextList.size(); i++) {
       RecyclerView eachPage = generateEachPage(allPageFaceTextList.get(i));
@@ -49,12 +59,18 @@ public class FaceTextInputLayoutHelper implements FaceTextProvider {
     return pageList;
   }
 
+  /**
+   * 注册颜文字点击事件监听器
+   */
   public void register(OnFaceTextClickListener listener) {
     for (FaceTextInputLineAdapter adapter : mFaceTextInputLineAdapterList) {
       adapter.setOnFaceTextClickListener(listener);
     }
   }
 
+  /**
+   * 解绑颜文字点击事件监听器
+   */
   public void unregister() {
     for (FaceTextInputLineAdapter adapter : mFaceTextInputLineAdapterList) {
       adapter.setOnFaceTextClickListener(null);
@@ -62,22 +78,9 @@ public class FaceTextInputLayoutHelper implements FaceTextProvider {
   }
 
   /**
-   * 得到"颜文字"的数组
-   */
-  private ArrayList<FaceText> getFaceTextList() {
-    ArrayList<FaceText> faceTextList = new ArrayList<>();
-    for (String content : FaceTextProvider.FACE_TEXT_SOURCE) {
-      FaceText faceText = new FaceText();
-      faceText.content = content;
-      faceTextList.add(faceText);
-    }
-    return faceTextList;
-  }
-
-  /**
    * 生成每个“颜文字”页面
    */
-  private RecyclerView generateEachPage(ArrayList<ArrayList<FaceText>> faceTextList) {
+  private RecyclerView generateEachPage(List<List<FaceText>> faceTextList) {
     RecyclerView recyclerView = new RecyclerView(mContext);
     recyclerView.setHasFixedSize(true);
     recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
@@ -91,9 +94,9 @@ public class FaceTextInputLayoutHelper implements FaceTextProvider {
   /**
    * 给颜文字排版
    */
-  private ArrayList<ArrayList<ArrayList<FaceText>>> getAllPageFaceTextList() {
-    ArrayList<FaceText> faceTextList = getFaceTextList();
-    ArrayList<ArrayList<ArrayList<FaceText>>> allPageFaceTextList = new ArrayList<>();
+  private List<List<List<FaceText>>> getAllPageFaceTextList() {
+    List<FaceText> faceTextList = mFaceTextProvider.provideFaceTextList();
+    List<List<List<FaceText>>> allPageFaceTextList = new ArrayList<>();
 
     // 当前行数
     int currentLineNum = 0;
@@ -103,9 +106,9 @@ public class FaceTextInputLayoutHelper implements FaceTextProvider {
     int lineWidth = 0;
 
     // 每页的 List
-    ArrayList<ArrayList<FaceText>> pageFaceTextList = new ArrayList<>();
+    List<List<FaceText>> pageFaceTextList = new ArrayList<>();
     // 每行的 List
-    ArrayList<FaceText> lineFaceTextList = new ArrayList<>();
+    List<FaceText> lineFaceTextList = new ArrayList<>();
     // 将当前行添加到当前页
     pageFaceTextList.add(lineFaceTextList);
     // 将当前页添加到 页List 中

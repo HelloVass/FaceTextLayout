@@ -7,11 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import java.util.ArrayList;
 import java.util.List;
-import la.juju.www.android.ftil.listeners.OnFaceTextClickListener;
 import la.juju.www.android.ftil.R;
 import la.juju.www.android.ftil.entities.FaceText;
+import la.juju.www.android.ftil.listeners.OnFaceTextClickListener;
 import la.juju.www.android.ftil.utils.DensityUtil;
 
 /**
@@ -20,7 +19,7 @@ import la.juju.www.android.ftil.utils.DensityUtil;
 public class FaceTextInputLineAdapter
     extends RecyclerView.Adapter<FaceTextInputLineAdapter.FaceTextViewHolder> {
 
-  private ArrayList<ArrayList<FaceText>> mPageFaceTextList;
+  private List<List<FaceText>> mPageFaceTextList;
 
   private Context mContext;
 
@@ -72,7 +71,7 @@ public class FaceTextInputLineAdapter
     return mPageFaceTextList.size();
   }
 
-  public void setPageFaceTextList(ArrayList<ArrayList<FaceText>> pageFaceTextList) {
+  public void setPageFaceTextList(List<List<FaceText>> pageFaceTextList) {
     mPageFaceTextList = pageFaceTextList;
   }
 

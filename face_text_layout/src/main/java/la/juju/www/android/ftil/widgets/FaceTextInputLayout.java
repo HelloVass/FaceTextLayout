@@ -49,7 +49,7 @@ public class FaceTextInputLayout extends RelativeLayout {
     DotViewLayout dotViewLayout = (DotViewLayout) findViewById(R.id.dotview_layout);
 
     // TODO: 生成页面在主线程，以后挪到其他线程中
-    mFaceTextInputLayoutHelper = FaceTextInputLayoutHelper.newInstance(context);
+    mFaceTextInputLayoutHelper = FaceTextInputLayoutHelper.getInstance(context);
     // 生成所有“颜文字页面”
     List<RecyclerView> allPageList = mFaceTextInputLayoutHelper.generateAllPage();
 

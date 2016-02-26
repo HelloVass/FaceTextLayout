@@ -1,9 +1,13 @@
-package la.juju.www.android.ftil.utils;
+package la.juju.www.android.ftil.source;
+
+import java.util.ArrayList;
+import java.util.List;
+import la.juju.www.android.ftil.entities.FaceText;
 
 /**
- * Created by HelloVass on 15/12/31.
+ * Created by HelloVass on 16/2/26.
  */
-public interface FaceTextProvider {
+public class MemorySource implements FaceTextProvider {
 
   String[] FACE_TEXT_SOURCE = new String[] {
       "(*^ω^*)", "(o^^o)♪", "(*ﾟ∀ﾟ*)", "＼(☆o☆)／", "(*´∀｀)", "(✪ω✪)", "(✧◡✧)", "o(*≧▽≦)ツ┏━┓[拍桌狂笑!] ",
@@ -18,4 +22,14 @@ public interface FaceTextProvider {
       "ᕙ(⇀‸↼‵‵)ᕗ", "(῀( ˙᷄ỏ˙᷅ )῀)ᵒᵐᵍᵎᵎᵎ", "눈_눈", "Ծ‸Ծ", "(ﾉಥ益ಥ)", "( •̥́ ˍ •̀ू )", "(๑‾᷅⍨‾᷅๑)",
       "( ✘_✘ )↯", "(￣ε(#￣)", "(๑ʘ̅ д ʘ̅๑)!!!", "✧＼\\ ٩( 'ω' )و /／✧"
   };
+
+  @Override public List<FaceText> provideFaceTextList() {
+    List<FaceText> faceTextList = new ArrayList<>();
+    for (String content : FACE_TEXT_SOURCE) {
+      FaceText faceText = new FaceText();
+      faceText.content = content;
+      faceTextList.add(faceText);
+    }
+    return faceTextList;
+  }
 }
