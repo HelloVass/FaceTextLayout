@@ -92,7 +92,7 @@ public class FaceTextInputLayoutHelper {
   }
 
   /**
-   * 给颜文字排版
+   * 颜文字排版算法
    */
   private List<List<List<FaceText>>> getAllPageFaceTextList() {
     List<FaceText> faceTextList = mFaceTextProvider.provideFaceTextList();
@@ -109,9 +109,11 @@ public class FaceTextInputLayoutHelper {
     List<List<FaceText>> pageFaceTextList = new ArrayList<>();
     // 每行的 List
     List<FaceText> lineFaceTextList = new ArrayList<>();
+    // 保存每行所有“item宽度”的 List
+    List<Integer> lineItemWidthList = new ArrayList<>(PAGE_MAX_COLUMN_COUNT);
     // 将当前行添加到当前页
     pageFaceTextList.add(lineFaceTextList);
-    // 将当前页添加到 页List 中
+    // 将当前页添加到“页List”中
     allPageFaceTextList.add(pageFaceTextList);
 
     TextView faceTextView = getFaceTextView();
@@ -120,9 +122,10 @@ public class FaceTextInputLayoutHelper {
       int itemWidth = measureFaceTextWidth(faceTextView, faceText) + generateHorizontalMargin();
       lineWidth += itemWidth;
       columnCount++;
+      lineItemWidthList.add(itemWidth);
 
-      if ((lineWidth <= ScreenUtil.getScreenWidth(mContext) && columnCount <= PAGE_MAX_COLUMN_COUNT)
-          || (columnCount == 1 && lineWidth > ScreenUtil.getScreenWidth(mContext))) {
+      if (canPlaceMutipileItems(lineWidth, lineItemWidthList, columnCount)
+          || canPlaceSingleItem(columnCount, lineWidth)) {
         lineFaceTextList.add(faceText);
       } else {
         currentLineNum++;
@@ -136,6 +139,9 @@ public class FaceTextInputLayoutHelper {
           allPageFaceTextList.add(pageFaceTextList);
         }
 
+        lineItemWidthList = new ArrayList<>();
+        lineItemWidthList.add(itemWidth);
+
         lineFaceTextList = new ArrayList<>();
         lineFaceTextList.add(faceText);
         pageFaceTextList.add(lineFaceTextList);
@@ -143,6 +149,37 @@ public class FaceTextInputLayoutHelper {
     }
 
     return allPageFaceTextList;
+  }
+
+  /**
+   * 能否在单行中摆放
+   *
+   * @param columnCount 列数
+   * @param lineWidth 行宽
+   */
+  private boolean canPlaceSingleItem(int columnCount, int lineWidth) {
+    return columnCount == 1 && lineWidth > ScreenUtil.getScreenWidth(mContext);
+  }
+
+  /**
+   * 能否在一行中摆放多个 item
+   * @param lineWidth
+   * @param lineItemWidthList
+   * @param columnCount
+   * @return
+   */
+  private boolean canPlaceMutipileItems(int lineWidth, List<Integer> lineItemWidthList,
+      int columnCount) {
+
+    for (int itemWidth : lineItemWidthList)
+      if (itemWidth > ScreenUtil.getScreenWidth(mContext) / columnCount)
+        return false;
+
+    if (lineWidth <= ScreenUtil.getScreenWidth(mContext)
+        && columnCount <= PAGE_MAX_COLUMN_COUNT)
+      return true;
+
+    return false;
   }
 
   /**
