@@ -20,6 +20,7 @@ public class FaceLayoutDemoActivity extends AppCompatActivity {
     FaceTextInputLayout faceTextInputLayout =
         (FaceTextInputLayout) findViewById(R.id.tv_face_text_input_layout);
 
+    // 设置“颜文字source”
     faceTextInputLayout.setFaceTextSource(new RawSource(this,R.raw.face_text));
 
     // 设置点击事件

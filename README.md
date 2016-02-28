@@ -30,7 +30,7 @@
 2. 尽可能地降低 View 层级了，目前的玄学曲线是这样的！
 ![看起来还是蛮舒服的](./design/玄学曲线.gif)
 
-3. 如何给 **FaceTextInputLayout** 设置**颜文字来源**的思路还有点问题！还在思考ing...
+3. 支持为 **FaceTextInputLayout** 设置**颜文字source**
 
 
 ### 用法
@@ -44,6 +44,9 @@ public class FaceLayoutDemoActivity extends AppCompatActivity {
 
     FaceTextInputLayout faceTextInputLayout =
         (FaceTextInputLayout) findViewById(R.id.tv_face_text_input_layout);
+
+    // 设置“颜文字source”
+    faceTextInputLayout.setFaceTextSource(new RawSource(this,R.raw.face_text));
 
     // 设置点击事件
     faceTextInputLayout.setOnFaceTextClickListener(new OnFaceTextClickListener() {
