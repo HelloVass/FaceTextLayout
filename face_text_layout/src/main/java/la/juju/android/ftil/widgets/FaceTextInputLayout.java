@@ -49,6 +49,7 @@ public class FaceTextInputLayout extends RelativeLayout {
   @Override protected void onDetachedFromWindow() {
     super.onDetachedFromWindow();
     mFaceTextInputLayoutHelper.unregister();
+    mFaceTextInputLayoutHelper.setFaceTextProvider(null);
   }
 
   private void init(Context context, AttributeSet attrs) {
@@ -73,6 +74,22 @@ public class FaceTextInputLayout extends RelativeLayout {
     mViewPager.setOffscreenPageLimit(mMyPagerAdapter.getCount());
     mViewPager.setAdapter(mMyPagerAdapter);
     mDotViewLayout.setViewPager(mViewPager);
+  }
+
+  /**
+   *
+   * @param onFaceTextClickListener
+   */
+  public void setOnFaceTextClickListener(OnFaceTextClickListener onFaceTextClickListener) {
+    mFaceTextInputLayoutHelper.register(onFaceTextClickListener);
+  }
+
+  /**
+   * 设置“颜文字source”
+   */
+  public void setFaceTextSource(FaceTextProvider provider) {
+    mFaceTextInputLayoutHelper.setFaceTextProvider(provider);
+    updateUI();
   }
 
   private static class MyPagerAdapter extends PagerAdapter {
@@ -107,14 +124,5 @@ public class FaceTextInputLayout extends RelativeLayout {
     public void setFaceTextInputPageList(List<RecyclerView> faceTextInputPageList) {
       mFaceTextInputPageList = faceTextInputPageList;
     }
-  }
-
-  public void setOnFaceTextClickListener(OnFaceTextClickListener onFaceTextClickListener) {
-    mFaceTextInputLayoutHelper.register(onFaceTextClickListener);
-  }
-
-  public void setFaceTextSource(FaceTextProvider provider) {
-    mFaceTextInputLayoutHelper.setFaceTextProvider(provider);
-    updateUI();
   }
 }

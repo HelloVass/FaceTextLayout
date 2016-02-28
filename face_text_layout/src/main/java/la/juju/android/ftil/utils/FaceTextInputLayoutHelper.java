@@ -28,6 +28,7 @@ public class FaceTextInputLayoutHelper {
 
   private Context mContext;
 
+  // “颜文字source”接口
   private FaceTextProvider mFaceTextProvider;
 
   private List<FaceTextInputLineAdapter> mFaceTextInputLineAdapterList;
@@ -73,14 +74,6 @@ public class FaceTextInputLayoutHelper {
     for (FaceTextInputLineAdapter adapter : mFaceTextInputLineAdapterList) {
       adapter.setOnFaceTextClickListener(null);
     }
-  }
-
-  public void setFaceTextProvider(FaceTextProvider provider) {
-    mFaceTextProvider = provider;
-  }
-
-  public FaceTextProvider getFaceTextProvider() {
-    return mFaceTextProvider;
   }
 
   /**
@@ -176,11 +169,7 @@ public class FaceTextInputLayoutHelper {
     for (int itemWidth : lineItemWidthList)
       if (itemWidth > ScreenUtil.getScreenWidth(mContext) / columnCount) return false;
 
-    if (lineWidth <= ScreenUtil.getScreenWidth(mContext) && columnCount <= PAGE_MAX_COLUMN_COUNT) {
-      return true;
-    }
-
-    return false;
+    return lineWidth <= ScreenUtil.getScreenWidth(mContext) && columnCount <= PAGE_MAX_COLUMN_COUNT;
   }
 
   /**
@@ -213,5 +202,13 @@ public class FaceTextInputLayoutHelper {
     int rightMargin =
         mContext.getResources().getDimensionPixelOffset(R.dimen.face_text_view_right_margin);
     return leftMargin + rightMargin;
+  }
+
+  public void setFaceTextProvider(FaceTextProvider provider) {
+    mFaceTextProvider = provider;
+  }
+
+  public FaceTextProvider getFaceTextProvider() {
+    return mFaceTextProvider;
   }
 }

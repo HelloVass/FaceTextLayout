@@ -125,7 +125,7 @@ public class DotViewLayout extends LinearLayout implements ViewPager.OnPageChang
     }
   }
 
-  // remove DotViewLayout 中的 indicator
+  // 移除“DotViewLayout”中的 indicator
   private void clearIndicator() {
     removeAllViews();
   }
