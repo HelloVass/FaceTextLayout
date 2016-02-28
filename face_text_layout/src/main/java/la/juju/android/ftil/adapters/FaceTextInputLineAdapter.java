@@ -11,7 +11,6 @@ import java.util.List;
 import la.juju.android.ftil.R;
 import la.juju.android.ftil.entities.FaceText;
 import la.juju.android.ftil.listeners.OnFaceTextClickListener;
-import la.juju.android.ftil.utils.DensityUtil;
 
 /**
  * Created by HelloVass on 16/1/1.
@@ -58,8 +57,8 @@ public class FaceTextInputLineAdapter
   }
 
   private LinearLayout.LayoutParams generateFaceTextContainerLayoutParams() {
-    LinearLayout.LayoutParams layoutParams =
-        new LinearLayout.LayoutParams(0, DensityUtil.dip2px(mContext, 48), 1.0f);
+    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(0,
+        mContext.getResources().getDimensionPixelOffset(R.dimen.face_text_view_height), 1.0f);
     layoutParams.leftMargin =
         mContext.getResources().getDimensionPixelOffset(R.dimen.face_text_view_left_margin);
     layoutParams.rightMargin =

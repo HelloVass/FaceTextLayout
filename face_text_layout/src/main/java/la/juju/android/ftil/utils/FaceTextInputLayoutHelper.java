@@ -13,17 +13,16 @@ import la.juju.android.ftil.adapters.FaceTextInputLineAdapter;
 import la.juju.android.ftil.entities.FaceText;
 import la.juju.android.ftil.listeners.OnFaceTextClickListener;
 import la.juju.android.ftil.source.FaceTextProvider;
-import la.juju.android.ftil.source.RawSource;
 
 /**
  * Created by HelloVass on 16/2/24.
  */
 public class FaceTextInputLayoutHelper {
 
-  // 每页的行数
-  private static final int PAGE_ROW_COUNT = 3;
+  // 每页的最大行号
+  public static final int PAGE_MAX_LINE_NUM = 3;
   // 每页的最大列数
-  private static final int PAGE_MAX_COLUMN_COUNT = 4;
+  public static final int PAGE_MAX_COLUMN_COUNT = 4;
 
   private static FaceTextInputLayoutHelper sFaceTextInputLayoutHelper;
 
@@ -35,7 +34,6 @@ public class FaceTextInputLayoutHelper {
 
   private FaceTextInputLayoutHelper(Context context) {
     mContext = context;
-    mFaceTextProvider = new RawSource(context,R.raw.face_text);
     mFaceTextInputLineAdapterList = new ArrayList<>();
   }
 
@@ -75,6 +73,14 @@ public class FaceTextInputLayoutHelper {
     for (FaceTextInputLineAdapter adapter : mFaceTextInputLineAdapterList) {
       adapter.setOnFaceTextClickListener(null);
     }
+  }
+
+  public void setFaceTextProvider(FaceTextProvider provider) {
+    mFaceTextProvider = provider;
+  }
+
+  public FaceTextProvider getFaceTextProvider() {
+    return mFaceTextProvider;
   }
 
   /**
@@ -124,8 +130,8 @@ public class FaceTextInputLayoutHelper {
       columnCount++;
       lineItemWidthList.add(itemWidth);
 
-      if (canPlaceMutipileItems(lineWidth, lineItemWidthList, columnCount)
-          || canPlaceSingleItem(columnCount, lineWidth)) {
+      if (canPlaceMutipileItems(lineWidth, lineItemWidthList, columnCount) || canPlaceSingleItem(
+          columnCount, lineWidth)) {
         lineFaceTextList.add(faceText);
       } else {
         currentLineNum++;
@@ -133,7 +139,7 @@ public class FaceTextInputLayoutHelper {
         columnCount = 1;
 
         // 切换到下一个页面
-        if (currentLineNum > PAGE_ROW_COUNT) {
+        if (currentLineNum > PAGE_MAX_LINE_NUM) {
           currentLineNum = 0;
           pageFaceTextList = new ArrayList<>();
           allPageFaceTextList.add(pageFaceTextList);
@@ -163,21 +169,16 @@ public class FaceTextInputLayoutHelper {
 
   /**
    * 能否在一行中摆放多个 item
-   * @param lineWidth
-   * @param lineItemWidthList
-   * @param columnCount
-   * @return
    */
   private boolean canPlaceMutipileItems(int lineWidth, List<Integer> lineItemWidthList,
       int columnCount) {
 
     for (int itemWidth : lineItemWidthList)
-      if (itemWidth > ScreenUtil.getScreenWidth(mContext) / columnCount)
-        return false;
+      if (itemWidth > ScreenUtil.getScreenWidth(mContext) / columnCount) return false;
 
-    if (lineWidth <= ScreenUtil.getScreenWidth(mContext)
-        && columnCount <= PAGE_MAX_COLUMN_COUNT)
+    if (lineWidth <= ScreenUtil.getScreenWidth(mContext) && columnCount <= PAGE_MAX_COLUMN_COUNT) {
       return true;
+    }
 
     return false;
   }

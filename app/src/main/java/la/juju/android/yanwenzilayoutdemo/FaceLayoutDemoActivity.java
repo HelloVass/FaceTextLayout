@@ -3,8 +3,9 @@ package la.juju.android.yanwenzilayoutdemo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
-import la.juju.android.ftil.listeners.OnFaceTextClickListener;
 import la.juju.android.ftil.entities.FaceText;
+import la.juju.android.ftil.listeners.OnFaceTextClickListener;
+import la.juju.android.yanwenzilayoutdemo.source.RawSource;
 import la.juju.android.ftil.widgets.FaceTextInputLayout;
 
 /**
@@ -18,6 +19,8 @@ public class FaceLayoutDemoActivity extends AppCompatActivity {
 
     FaceTextInputLayout faceTextInputLayout =
         (FaceTextInputLayout) findViewById(R.id.tv_face_text_input_layout);
+
+    faceTextInputLayout.setFaceTextSource(new RawSource(this,R.raw.face_text));
 
     // 设置点击事件
     faceTextInputLayout.setOnFaceTextClickListener(new OnFaceTextClickListener() {

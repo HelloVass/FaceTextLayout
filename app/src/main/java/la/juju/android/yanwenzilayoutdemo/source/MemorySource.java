@@ -1,8 +1,9 @@
-package la.juju.android.ftil.source;
+package la.juju.android.yanwenzilayoutdemo.source;
 
 import java.util.ArrayList;
 import java.util.List;
 import la.juju.android.ftil.entities.FaceText;
+import la.juju.android.ftil.source.FaceTextProvider;
 
 /**
  * Created by HelloVass on 16/2/26.

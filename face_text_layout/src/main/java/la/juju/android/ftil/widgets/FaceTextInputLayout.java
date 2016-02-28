@@ -9,8 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import java.util.List;
-import la.juju.android.ftil.listeners.OnFaceTextClickListener;
 import la.juju.android.ftil.R;
+import la.juju.android.ftil.listeners.OnFaceTextClickListener;
+import la.juju.android.ftil.source.FaceTextProvider;
 import la.juju.android.ftil.utils.FaceTextInputLayoutHelper;
 
 /**
@@ -19,6 +20,14 @@ import la.juju.android.ftil.utils.FaceTextInputLayoutHelper;
 public class FaceTextInputLayout extends RelativeLayout {
 
   private FaceTextInputLayoutHelper mFaceTextInputLayoutHelper;
+
+  private ViewPager mViewPager;
+
+  private DotViewLayout mDotViewLayout;
+
+  private List<RecyclerView> mAllPageList;
+
+  private MyPagerAdapter mMyPagerAdapter;
 
   public FaceTextInputLayout(Context context) {
     this(context, null);
@@ -45,24 +54,34 @@ public class FaceTextInputLayout extends RelativeLayout {
   private void init(Context context, AttributeSet attrs) {
     View.inflate(getContext(), R.layout.layout_face_text_input, this);
 
-    ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-    DotViewLayout dotViewLayout = (DotViewLayout) findViewById(R.id.dotview_layout);
+    mViewPager = (ViewPager) findViewById(R.id.pager);
+    mDotViewLayout = (DotViewLayout) findViewById(R.id.dotview_layout);
 
-    // TODO: 生成页面在主线程，以后挪到其他线程中
+    mMyPagerAdapter = new MyPagerAdapter();
     mFaceTextInputLayoutHelper = FaceTextInputLayoutHelper.getInstance(context);
-    // 生成所有“颜文字页面”
-    List<RecyclerView> allPageList = mFaceTextInputLayoutHelper.generateAllPage();
 
-    MyPagerAdapter pagerAdapter = new MyPagerAdapter(allPageList);
+    // 没有设置“颜文字source”则 return
+    if (mFaceTextInputLayoutHelper.getFaceTextProvider() == null) return;
 
-    viewPager.setOffscreenPageLimit(pagerAdapter.getCount());
-    viewPager.setAdapter(pagerAdapter);
-    dotViewLayout.setViewPager(viewPager);
+    updateUI();
+  }
+
+  private void updateUI() {
+    // TODO: 生成页面在主线程，需要放到非 UI线程
+    mAllPageList = mFaceTextInputLayoutHelper.generateAllPage();
+    mMyPagerAdapter.setFaceTextInputPageList(mAllPageList);
+    mViewPager.setOffscreenPageLimit(mMyPagerAdapter.getCount());
+    mViewPager.setAdapter(mMyPagerAdapter);
+    mDotViewLayout.setViewPager(mViewPager);
   }
 
   private static class MyPagerAdapter extends PagerAdapter {
 
     private List<RecyclerView> mFaceTextInputPageList;
+
+    public MyPagerAdapter() {
+
+    }
 
     public MyPagerAdapter(List<RecyclerView> recyclerViewList) {
       mFaceTextInputPageList = recyclerViewList;
@@ -84,9 +103,18 @@ public class FaceTextInputLayout extends RelativeLayout {
     @Override public void destroyItem(ViewGroup container, int position, Object object) {
       container.removeView(mFaceTextInputPageList.get(position));
     }
+
+    public void setFaceTextInputPageList(List<RecyclerView> faceTextInputPageList) {
+      mFaceTextInputPageList = faceTextInputPageList;
+    }
   }
 
   public void setOnFaceTextClickListener(OnFaceTextClickListener onFaceTextClickListener) {
     mFaceTextInputLayoutHelper.register(onFaceTextClickListener);
+  }
+
+  public void setFaceTextSource(FaceTextProvider provider) {
+    mFaceTextInputLayoutHelper.setFaceTextProvider(provider);
+    updateUI();
   }
 }
