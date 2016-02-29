@@ -24,11 +24,14 @@ public class FaceTextInputLineAdapter
 
   private LayoutInflater mInflater;
 
+  private LinearLayout.LayoutParams mFaceTextContainerLayoutParams;
+
   private OnFaceTextClickListener mOnFaceTextClickListener;
 
   public FaceTextInputLineAdapter(Context context) {
     mContext = context;
     mInflater = LayoutInflater.from(context);
+    mFaceTextContainerLayoutParams = generateFaceTextContainerLayoutParams();
   }
 
   @Override public FaceTextViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -43,8 +46,7 @@ public class FaceTextInputLineAdapter
     for (int i = 0; i < lineFaceTextList.size(); i++) {
       final FaceText faceText = lineFaceTextList.get(i);
       TextView faceTextView = (TextView) mInflater.inflate(R.layout.view_face_text, null);
-      LinearLayout.LayoutParams layoutParams = generateFaceTextContainerLayoutParams();
-      holder.mLineContainer.addView(faceTextView, layoutParams);
+      holder.mLineContainer.addView(faceTextView, mFaceTextContainerLayoutParams);
       faceTextView.setText(faceText.content);
       faceTextView.setOnClickListener(new View.OnClickListener() {
         @Override public void onClick(View v) {
