@@ -19,6 +19,8 @@ import la.juju.android.ftil.utils.FaceTextInputLayoutHelper;
  */
 public class FaceTextInputLayout extends RelativeLayout {
 
+  private static final String TAG = FaceTextInputLayout.class.getSimpleName();
+
   private FaceTextInputLayoutHelper mFaceTextInputLayoutHelper;
 
   private ViewPager mViewPager;
@@ -52,19 +54,21 @@ public class FaceTextInputLayout extends RelativeLayout {
     mFaceTextInputLayoutHelper.setFaceTextProvider(null);
   }
 
-  private void init(Context context, AttributeSet attrs) {
-    View.inflate(getContext(), R.layout.layout_face_text_input, this);
-
+  @Override protected void onFinishInflate() {
+    super.onFinishInflate();
     mViewPager = (ViewPager) findViewById(R.id.pager);
     mDotViewLayout = (DotViewLayout) findViewById(R.id.dotview_layout);
-
-    mMyPagerAdapter = new MyPagerAdapter();
-    mFaceTextInputLayoutHelper = FaceTextInputLayoutHelper.getInstance(context);
 
     // 没有设置“颜文字source”则 return
     if (mFaceTextInputLayoutHelper.getFaceTextProvider() == null) return;
 
     updateUI();
+  }
+
+  private void init(Context context, AttributeSet attrs) {
+    View.inflate(getContext(), R.layout.layout_face_text_input, this);
+    mMyPagerAdapter = new MyPagerAdapter();
+    mFaceTextInputLayoutHelper = FaceTextInputLayoutHelper.getInstance(context);
   }
 
   private void updateUI() {

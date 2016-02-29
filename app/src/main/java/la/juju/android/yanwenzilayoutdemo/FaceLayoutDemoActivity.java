@@ -5,13 +5,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 import la.juju.android.ftil.entities.FaceText;
 import la.juju.android.ftil.listeners.OnFaceTextClickListener;
-import la.juju.android.yanwenzilayoutdemo.source.RawSource;
 import la.juju.android.ftil.widgets.FaceTextInputLayout;
+import la.juju.android.yanwenzilayoutdemo.source.RawSource;
 
 /**
  * Created by HelloVass on 15/12/31.
  */
 public class FaceLayoutDemoActivity extends AppCompatActivity {
+
+  private static final String TAG = FaceLayoutDemoActivity.class.getSimpleName();
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -21,7 +23,7 @@ public class FaceLayoutDemoActivity extends AppCompatActivity {
         (FaceTextInputLayout) findViewById(R.id.tv_face_text_input_layout);
 
     // 设置“颜文字source”
-    faceTextInputLayout.setFaceTextSource(new RawSource(this,R.raw.face_text));
+    faceTextInputLayout.setFaceTextSource(new RawSource(this, R.raw.face_text));
 
     // 设置点击事件
     faceTextInputLayout.setOnFaceTextClickListener(new OnFaceTextClickListener() {
