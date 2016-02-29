@@ -82,6 +82,7 @@ public class FaceTextInputLayoutHelper {
   private RecyclerView generateEachPage(List<List<FaceText>> faceTextList) {
     RecyclerView recyclerView = new RecyclerView(mContext);
     recyclerView.setHasFixedSize(true);
+    recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
     recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
     FaceTextInputLineAdapter faceTextInputLineAdapter = new FaceTextInputLineAdapter(mContext);
     mFaceTextInputLineAdapterList.add(faceTextInputLineAdapter);
