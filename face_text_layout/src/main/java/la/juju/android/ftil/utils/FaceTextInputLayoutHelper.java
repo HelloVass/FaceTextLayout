@@ -83,7 +83,9 @@ public class FaceTextInputLayoutHelper {
     RecyclerView recyclerView = new RecyclerView(mContext);
     recyclerView.setHasFixedSize(true);
     recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
-    recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext);
+    layoutManager.setAutoMeasureEnabled(true);
+    recyclerView.setLayoutManager(layoutManager);
     FaceTextInputLineAdapter faceTextInputLineAdapter = new FaceTextInputLineAdapter(mContext);
     mFaceTextInputLineAdapterList.add(faceTextInputLineAdapter);
     faceTextInputLineAdapter.setPageFaceTextList(faceTextList);
