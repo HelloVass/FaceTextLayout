@@ -31,11 +31,19 @@ public class FaceTextInputLayoutHelper {
   // “颜文字source”接口
   private FaceTextProvider mFaceTextProvider;
 
+  // “颜文字Item”水平边距
+  private int mFaceTextViewHorizontalMargin;
+
+  // 用于测量颜文字长度的“TextView”
+  private TextView mTargetFaceTextView;
+
   private List<FaceTextInputLineAdapter> mFaceTextInputLineAdapterList;
 
   private FaceTextInputLayoutHelper(Context context) {
     mContext = context;
     mFaceTextInputLineAdapterList = new ArrayList<>();
+    mTargetFaceTextView = generateTargetFaceTextView();
+    mFaceTextViewHorizontalMargin = generateFaceTextViewHorizontalMargin();
   }
 
   public static FaceTextInputLayoutHelper getInstance(Context context) {
@@ -87,8 +95,8 @@ public class FaceTextInputLayoutHelper {
     layoutManager.setAutoMeasureEnabled(true);
     recyclerView.setLayoutManager(layoutManager);
     FaceTextInputLineAdapter faceTextInputLineAdapter = new FaceTextInputLineAdapter(mContext);
-    mFaceTextInputLineAdapterList.add(faceTextInputLineAdapter);
     faceTextInputLineAdapter.setPageFaceTextList(faceTextList);
+    mFaceTextInputLineAdapterList.add(faceTextInputLineAdapter);
     recyclerView.setAdapter(faceTextInputLineAdapter);
     return recyclerView;
   }
@@ -118,10 +126,10 @@ public class FaceTextInputLayoutHelper {
     // 将当前页添加到“页List”中
     allPageFaceTextList.add(pageFaceTextList);
 
-    TextView faceTextView = getFaceTextView();
     for (int i = 0; i < faceTextList.size(); i++) {
       FaceText faceText = faceTextList.get(i);
-      int itemWidth = measureFaceTextWidth(faceTextView, faceText) + generateHorizontalMargin();
+      int itemWidth =
+          measureFaceTextWidth(mTargetFaceTextView, faceText) + mFaceTextViewHorizontalMargin;
       lineWidth += itemWidth;
       columnCount++;
       lineItemWidthList.add(itemWidth);
@@ -176,9 +184,9 @@ public class FaceTextInputLayoutHelper {
   }
 
   /**
-   * 获取一个 TextView
+   * 获取一个用于测量“颜文字”长度的 TextView
    */
-  private TextView getFaceTextView() {
+  private TextView generateTargetFaceTextView() {
     return (TextView) LayoutInflater.from(mContext)
         .inflate(R.layout.wrapper_face_text, null)
         .findViewById(R.id.tv_face_text);
@@ -199,7 +207,7 @@ public class FaceTextInputLayoutHelper {
   /**
    * 生成 leftMargin 和 rightMargin
    */
-  private int generateHorizontalMargin() {
+  private int generateFaceTextViewHorizontalMargin() {
     int leftMargin =
         mContext.getResources().getDimensionPixelOffset(R.dimen.face_text_view_left_margin);
     int rightMargin =
