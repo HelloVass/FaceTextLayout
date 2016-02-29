@@ -23,4 +23,5 @@ dependencies {
   compile fileTree(include: ['*.jar'], dir: 'libs')
   testCompile 'junit:junit:4.12'
   compile project(':face_text_layout')
+  compile 'com.google.code.gson:gson:2.6.1'
 }
