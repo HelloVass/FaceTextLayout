@@ -1,6 +1,6 @@
 ## FaceTextInputLayout
 
-
+[![](https://jitpack.io/v/HelloVass/FaceTextLayout.svg)](https://jitpack.io/#HelloVass/FaceTextLayout)
 ### 问题
 如何对长度不一的颜文字进行**整齐**的排版呢！
 
