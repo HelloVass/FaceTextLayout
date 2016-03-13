@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,15 +25,16 @@ public class FaceTextInputLayoutHelper {
   // 每页的最大列数
   public static final int PAGE_MAX_COLUMN_COUNT = 4;
 
-  private static FaceTextInputLayoutHelper sFaceTextInputLayoutHelper;
-
   private Context mContext;
 
   // “颜文字source”接口
   private FaceTextProvider mFaceTextProvider;
 
-  // “颜文字Item”水平边距
-  private int mFaceTextViewHorizontalMargin;
+  private int mFaceTextViewLeftMargin;
+
+  private int mFaceTextViewRightMargin;
+
+  private int mFaceTextViewHeight;
 
   // 用于测量颜文字长度的“TextView”
   private TextView mTargetFaceTextView;
@@ -42,28 +44,11 @@ public class FaceTextInputLayoutHelper {
   private FaceTextInputLayoutHelper(Context context) {
     mContext = context;
     mFaceTextInputLineAdapterList = new ArrayList<>();
-    mTargetFaceTextView = generateTargetFaceTextView();
-    mFaceTextViewHorizontalMargin = generateFaceTextViewHorizontalMargin();
+    mTargetFaceTextView = inflateTargetFaceTextView();
   }
 
-  public static FaceTextInputLayoutHelper getInstance(Context context) {
-    if (sFaceTextInputLayoutHelper == null) {
-      sFaceTextInputLayoutHelper = new FaceTextInputLayoutHelper(context);
-    }
+  public static FaceTextInputLayoutHelper newInstance(Context context) {
     return new FaceTextInputLayoutHelper(context);
-  }
-
-  /**
-   * 生成所有“颜文字”页面
-   */
-  public List<RecyclerView> generateAllPage() {
-    List<List<List<FaceText>>> allPageFaceTextList = getAllPageFaceTextList();
-    List<RecyclerView> pageList = new ArrayList<>();
-    for (int i = 0; i < allPageFaceTextList.size(); i++) {
-      RecyclerView eachPage = generateEachPage(allPageFaceTextList.get(i));
-      pageList.add(eachPage);
-    }
-    return pageList;
   }
 
   /**
@@ -85,18 +70,16 @@ public class FaceTextInputLayoutHelper {
   }
 
   /**
-   * 生成每个“颜文字”页面
+   * 生成所有“颜文字”页面
    */
-  private RecyclerView generateEachPage(List<List<FaceText>> faceTextList) {
-    RecyclerView recyclerView = new RecyclerView(mContext);
-    recyclerView.setHasFixedSize(true);
-    recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
-    recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-    FaceTextInputLineAdapter faceTextInputLineAdapter = new FaceTextInputLineAdapter(mContext);
-    faceTextInputLineAdapter.setPageFaceTextList(faceTextList);
-    mFaceTextInputLineAdapterList.add(faceTextInputLineAdapter);
-    recyclerView.setAdapter(faceTextInputLineAdapter);
-    return recyclerView;
+  public List<RecyclerView> generateAllPage() {
+    List<List<List<FaceText>>> allPageFaceTextList = getAllPageFaceTextList();
+    List<RecyclerView> pageList = new ArrayList<>();
+    for (int i = 0; i < allPageFaceTextList.size(); i++) {
+      RecyclerView eachPage = generateEachPage(allPageFaceTextList.get(i));
+      pageList.add(eachPage);
+    }
+    return pageList;
   }
 
   /**
@@ -126,8 +109,11 @@ public class FaceTextInputLayoutHelper {
 
     for (int i = 0; i < faceTextList.size(); i++) {
       FaceText faceText = faceTextList.get(i);
-      int itemWidth =
-          measureFaceTextWidth(mTargetFaceTextView, faceText) + mFaceTextViewHorizontalMargin;
+
+      int itemWidth = measureFaceTextWidth(mTargetFaceTextView, faceText)
+          + mFaceTextViewLeftMargin
+          + mFaceTextViewRightMargin;
+
       lineWidth += itemWidth;
       columnCount++;
       lineItemWidthList.add(itemWidth);
@@ -160,6 +146,34 @@ public class FaceTextInputLayoutHelper {
   }
 
   /**
+   * 生成每个“颜文字”页面
+   */
+  private RecyclerView generateEachPage(List<List<FaceText>> faceTextList) {
+    RecyclerView recyclerView = new RecyclerView(mContext);
+    recyclerView.setHasFixedSize(true);
+    recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+    recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+    FaceTextInputLineAdapter faceTextInputLineAdapter = new FaceTextInputLineAdapter(mContext);
+    faceTextInputLineAdapter.setFaceTextContainerLayoutParams(
+        generateFaceTextContainerLayoutParams());
+    faceTextInputLineAdapter.setPageFaceTextList(faceTextList);
+    mFaceTextInputLineAdapterList.add(faceTextInputLineAdapter);
+    recyclerView.setAdapter(faceTextInputLineAdapter);
+    return recyclerView;
+  }
+
+  /**
+   * 生成每个“颜文字” item 对应的 layoutParams
+   */
+  private LinearLayout.LayoutParams generateFaceTextContainerLayoutParams() {
+    LinearLayout.LayoutParams layoutParams =
+        new LinearLayout.LayoutParams(0, mFaceTextViewHeight, 1.0f);
+    layoutParams.leftMargin = mFaceTextViewLeftMargin;
+    layoutParams.rightMargin = mFaceTextViewRightMargin;
+    return layoutParams;
+  }
+
+  /**
    * 能否在单行中摆放
    *
    * @param columnCount 列数
@@ -184,7 +198,7 @@ public class FaceTextInputLayoutHelper {
   /**
    * 获取一个用于测量“颜文字”长度的 TextView
    */
-  private TextView generateTargetFaceTextView() {
+  private TextView inflateTargetFaceTextView() {
     return (TextView) LayoutInflater.from(mContext)
         .inflate(R.layout.wrapper_face_text, null)
         .findViewById(R.id.tv_face_text);
@@ -202,22 +216,35 @@ public class FaceTextInputLayoutHelper {
     return faceTextView.getMeasuredWidth();
   }
 
-  /**
-   * 生成 leftMargin 和 rightMargin
-   */
-  private int generateFaceTextViewHorizontalMargin() {
-    int leftMargin =
-        mContext.getResources().getDimensionPixelOffset(R.dimen.face_text_view_left_margin);
-    int rightMargin =
-        mContext.getResources().getDimensionPixelOffset(R.dimen.face_text_view_right_margin);
-    return leftMargin + rightMargin;
-  }
-
   public void setFaceTextProvider(FaceTextProvider provider) {
     mFaceTextProvider = provider;
   }
 
   public FaceTextProvider getFaceTextProvider() {
     return mFaceTextProvider;
+  }
+
+  public int getFaceTextViewLeftMargin() {
+    return mFaceTextViewLeftMargin;
+  }
+
+  public void setFaceTextViewLeftMargin(int faceTextViewLeftMargin) {
+    mFaceTextViewLeftMargin = faceTextViewLeftMargin;
+  }
+
+  public int getFaceTextViewRightMargin() {
+    return mFaceTextViewRightMargin;
+  }
+
+  public void setFaceTextViewRightMargin(int faceTextViewRightMargin) {
+    mFaceTextViewRightMargin = faceTextViewRightMargin;
+  }
+
+  public int getFaceTextViewHeight() {
+    return mFaceTextViewHeight;
+  }
+
+  public void setFaceTextViewHeight(int faceTextViewHeight) {
+    mFaceTextViewHeight = faceTextViewHeight;
   }
 }

@@ -1,16 +1,12 @@
 package la.juju.android.ftil.widgets;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import la.juju.android.ftil.R;
 
 /**
  * Created by HelloVass on 15/11/25.
@@ -38,38 +34,13 @@ public class DotViewLayout extends LinearLayout implements ViewPager.OnPageChang
   }
 
   public DotViewLayout(Context context, AttributeSet attrs) {
-    this(context, attrs, 0);
+    super(context, attrs);
+    init();
   }
 
-  public DotViewLayout(Context context, AttributeSet attrs, int defStyleAttr) {
-    super(context, attrs, defStyleAttr);
-    init(context, attrs);
-  }
-
-  private void init(Context context, AttributeSet attrs) {
-
+  private void init() {
     setOrientation(HORIZONTAL);
     setGravity(Gravity.CENTER);
-
-    DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-
-    // 默认 indicator 间距 10dp
-    mIndicatorSpacing =
-        (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, displayMetrics);
-
-    TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.DotViewLayout);
-
-    mIndicatorSpacing = typedArray.getDimensionPixelSize(R.styleable.DotViewLayout_indicatorSpacing,
-        mIndicatorSpacing);
-
-    // 获取被选中的 indicator 图片资源 ID
-    mSelectedIndicatorResId = typedArray.getResourceId(R.styleable.DotViewLayout_selectedSrc, 0);
-
-    // 获取未选中的 indicator 图片资源 ID
-    mUnSelectedIndicatorResId =
-        typedArray.getResourceId(R.styleable.DotViewLayout_unselectedSrc, 0);
-
-    typedArray.recycle();
   }
 
   public void setViewPager(ViewPager viewPager) {
@@ -141,5 +112,29 @@ public class DotViewLayout extends LinearLayout implements ViewPager.OnPageChang
 
   @Override public void onPageScrollStateChanged(int state) {
 
+  }
+
+  public int getIndicatorSpacing() {
+    return mIndicatorSpacing;
+  }
+
+  public void setIndicatorSpacing(int indicatorSpacing) {
+    mIndicatorSpacing = indicatorSpacing;
+  }
+
+  public int getSelectedIndicatorResId() {
+    return mSelectedIndicatorResId;
+  }
+
+  public void setSelectedIndicatorResId(int selectedIndicatorResId) {
+    mSelectedIndicatorResId = selectedIndicatorResId;
+  }
+
+  public int getUnSelectedIndicatorResId() {
+    return mUnSelectedIndicatorResId;
+  }
+
+  public void setUnSelectedIndicatorResId(int unSelectedIndicatorResId) {
+    mUnSelectedIndicatorResId = unSelectedIndicatorResId;
   }
 }

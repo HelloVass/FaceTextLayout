@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <declare-styleable name="DotViewLayout">
+  <attr name="FaceTextInputLayoutStyle" format="reference" />
+
+  <declare-styleable name="FaceTextInputLayout">
+    <!-- DotViewLayout 的属性-->
     <attr name="indicatorSpacing" format="dimension" />
     <attr name="selectedSrc" format="reference" />
     <attr name="unselectedSrc" format="reference" />
+    <!-- 颜文字的属性-->
+    <attr name="faceTextViewLeftMargin" format="dimension" />
+    <attr name="faceTextViewRightMargin" format="dimension" />
+    <attr name="faceTextViewHeight" format="dimension" />
+
   </declare-styleable>
 
 </resources>

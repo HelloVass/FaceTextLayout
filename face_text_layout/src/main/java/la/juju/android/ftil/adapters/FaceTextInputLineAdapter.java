@@ -20,8 +20,6 @@ public class FaceTextInputLineAdapter
 
   private List<List<FaceText>> mPageFaceTextList;
 
-  private Context mContext;
-
   private LayoutInflater mInflater;
 
   private LinearLayout.LayoutParams mFaceTextContainerLayoutParams;
@@ -29,9 +27,7 @@ public class FaceTextInputLineAdapter
   private OnFaceTextClickListener mOnFaceTextClickListener;
 
   public FaceTextInputLineAdapter(Context context) {
-    mContext = context;
     mInflater = LayoutInflater.from(context);
-    mFaceTextContainerLayoutParams = generateFaceTextContainerLayoutParams();
   }
 
   @Override public FaceTextViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -58,16 +54,6 @@ public class FaceTextInputLineAdapter
     }
   }
 
-  private LinearLayout.LayoutParams generateFaceTextContainerLayoutParams() {
-    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(0,
-        mContext.getResources().getDimensionPixelOffset(R.dimen.face_text_view_height), 1.0f);
-    layoutParams.leftMargin =
-        mContext.getResources().getDimensionPixelOffset(R.dimen.face_text_view_left_margin);
-    layoutParams.rightMargin =
-        mContext.getResources().getDimensionPixelOffset(R.dimen.face_text_view_right_margin);
-    return layoutParams;
-  }
-
   @Override public int getItemCount() {
     return mPageFaceTextList.size();
   }
@@ -88,5 +74,14 @@ public class FaceTextInputLineAdapter
 
   public void setOnFaceTextClickListener(OnFaceTextClickListener onFaceTextClickListener) {
     mOnFaceTextClickListener = onFaceTextClickListener;
+  }
+
+  public LinearLayout.LayoutParams getFaceTextContainerLayoutParams() {
+    return mFaceTextContainerLayoutParams;
+  }
+
+  public void setFaceTextContainerLayoutParams(
+      LinearLayout.LayoutParams faceTextContainerLayoutParams) {
+    mFaceTextContainerLayoutParams = faceTextContainerLayoutParams;
   }
 }
