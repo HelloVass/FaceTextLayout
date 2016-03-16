@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 import la.juju.android.ftil.entities.FaceText;
-import la.juju.android.ftil.listeners.OnFaceTextClickListener;
 import la.juju.android.ftil.widgets.FaceTextInputLayout;
 import la.juju.android.yanwenzilayoutdemo.source.RawSource;
 
@@ -26,10 +25,12 @@ public class FaceLayoutDemoActivity extends AppCompatActivity {
     faceTextInputLayout.setFaceTextSource(new RawSource(this, R.raw.face_text));
 
     // 设置点击事件
-    faceTextInputLayout.setOnFaceTextClickListener(new OnFaceTextClickListener() {
+    faceTextInputLayout.setOnFaceTextClickListener(new FaceTextInputLayout.OnFaceTextClickListener() {
       @Override public void onFaceTextClick(FaceText faceText) {
         Toast.makeText(FaceLayoutDemoActivity.this, faceText.content, Toast.LENGTH_SHORT).show();
       }
     });
+
+    faceTextInputLayout.updateUI();
   }
 }

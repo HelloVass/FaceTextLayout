@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 import la.juju.android.ftil.R;
 import la.juju.android.ftil.entities.FaceText;
-import la.juju.android.ftil.listeners.OnFaceTextClickListener;
+import la.juju.android.ftil.widgets.FaceTextInputLayout;
 
 /**
  * Created by HelloVass on 16/1/1.
@@ -24,10 +24,23 @@ public class FaceTextInputLineAdapter
 
   private LinearLayout.LayoutParams mFaceTextContainerLayoutParams;
 
-  private OnFaceTextClickListener mOnFaceTextClickListener;
+  private FaceTextInputLayout.OnFaceTextClickListener mOnFaceTextClickListener;
 
   public FaceTextInputLineAdapter(Context context) {
     mInflater = LayoutInflater.from(context);
+  }
+
+  public void setOnFaceTextClickListener(FaceTextInputLayout.OnFaceTextClickListener onFaceTextClickListener) {
+    mOnFaceTextClickListener = onFaceTextClickListener;
+  }
+
+  public void setFaceTextContainerLayoutParams(
+      LinearLayout.LayoutParams faceTextContainerLayoutParams) {
+    mFaceTextContainerLayoutParams = faceTextContainerLayoutParams;
+  }
+
+  public void setPageFaceTextList(List<List<FaceText>> pageFaceTextList) {
+    mPageFaceTextList = pageFaceTextList;
   }
 
   @Override public FaceTextViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -58,10 +71,6 @@ public class FaceTextInputLineAdapter
     return mPageFaceTextList.size();
   }
 
-  public void setPageFaceTextList(List<List<FaceText>> pageFaceTextList) {
-    mPageFaceTextList = pageFaceTextList;
-  }
-
   public static class FaceTextViewHolder extends RecyclerView.ViewHolder {
 
     public LinearLayout mLineContainer;
@@ -70,18 +79,5 @@ public class FaceTextInputLineAdapter
       super(itemView);
       mLineContainer = (LinearLayout) itemView.findViewById(R.id.ll_line_container);
     }
-  }
-
-  public void setOnFaceTextClickListener(OnFaceTextClickListener onFaceTextClickListener) {
-    mOnFaceTextClickListener = onFaceTextClickListener;
-  }
-
-  public LinearLayout.LayoutParams getFaceTextContainerLayoutParams() {
-    return mFaceTextContainerLayoutParams;
-  }
-
-  public void setFaceTextContainerLayoutParams(
-      LinearLayout.LayoutParams faceTextContainerLayoutParams) {
-    mFaceTextContainerLayoutParams = faceTextContainerLayoutParams;
   }
 }
