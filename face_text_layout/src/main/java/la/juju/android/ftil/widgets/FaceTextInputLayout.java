@@ -2,6 +2,7 @@ package la.juju.android.ftil.widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -100,6 +101,8 @@ public class FaceTextInputLayout extends LinearLayout {
   }
 
   private void init(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+
+    setBackgroundColor(Color.parseColor("#efefef"));
     setOrientation(VERTICAL);
     View.inflate(getContext(), R.layout.layout_face_text_input, this);
 
