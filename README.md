@@ -15,12 +15,8 @@
 4. ...
 
 
-
-
 ### 效果演示
-![看起来还是蛮舒服的](./design/face_text_layout_demo.gif)
-
-
+<img src="./design/face_text_layout_demo.gif" width="400px"/>
 
 
 ### 缺点
@@ -28,10 +24,10 @@
 1. 虽然改进版的排版算法已经可以排版排的很漂亮了，但是，如果要让用户体验更棒，建议还是辛苦下**产品童鞋**给颜文字排下版吧！
 
 2. 尽可能地降低 View 层级
-![View的层级](./design/View层级.png)
+<img src="./design/View层级.png" width="400px"/>
 
 3. 玄学曲线
-![玄学曲线](./design/玄学曲线.gif)
+<img src="./design/玄学曲线.gif" width="400px"/>
 
 3. 支持为 **FaceTextInputLayout** 设置**颜文字source**
 
