@@ -173,7 +173,7 @@ public class FaceTextInputLayout extends LinearLayout {
     List<FaceText> faceTextList = mFaceTextProvider.provideFaceTextList();
     List<List<List<FaceText>>> allPageFaceTextList = new ArrayList<>();
 
-    // 当前行数
+    // 当前行号
     int currentLineNum = 0;
     // 列数
     int columnCount = 0;
@@ -211,7 +211,7 @@ public class FaceTextInputLayout extends LinearLayout {
         columnCount = 1;
 
         // 切换到下一个页面
-        if (currentLineNum > PAGE_MAX_LINE_NUM) {
+        if (currentLineNum >= PAGE_MAX_LINE_NUM) {
           currentLineNum = 0;
           pageFaceTextList = new ArrayList<>();
           allPageFaceTextList.add(pageFaceTextList);
