@@ -43,8 +43,6 @@ public class FaceTextInputLayout extends LinearLayout {
 
   private int mFaceTextViewRightMargin;
 
-  private int mFaceTextViewHeight;
-
   private LinearLayout.LayoutParams mFaceTextContainerLayoutParams;
 
   private TextView mTargetFaceTextView; // 用于测量颜文字长度的“TextView”
@@ -81,17 +79,25 @@ public class FaceTextInputLayout extends LinearLayout {
   }
 
   public void updateUI() {
-    // 如果用户未设置“颜文字source”,辣么 return
-    if (mFaceTextProvider == null) {
-      return;
-    }
 
-    // TODO: 生成页面在主线程，需要放到非 UI线程
-    List<RecyclerView> allPageList = generateAllPage();
-    mMyPagerAdapter.setFaceTextInputPageList(allPageList);
-    mViewPager.setOffscreenPageLimit(mMyPagerAdapter.getCount());
-    mViewPager.setAdapter(mMyPagerAdapter);
-    mDotViewLayout.setViewPager(mViewPager);
+    // 利用 View 的 post 方法机智地获取 View 的高度
+    post(new Runnable() {
+      @Override public void run() {
+
+        if (mFaceTextProvider == null) { // 如果用户未设置“颜文字source”,抛出异常
+          throw new IllegalStateException("mFaceTextProvider can't be null !!!");
+        }
+
+        mFaceTextContainerLayoutParams = generateFaceTextContainerLayoutParams();
+
+        // TODO: 生成页面在主线程，需要放到非 UI线程
+        List<RecyclerView> allPageList = generateAllPage();
+        mMyPagerAdapter.setFaceTextInputPageList(allPageList);
+        mViewPager.setOffscreenPageLimit(mMyPagerAdapter.getCount());
+        mViewPager.setAdapter(mMyPagerAdapter);
+        mDotViewLayout.setViewPager(mViewPager);
+      }
+    });
   }
 
   @Override protected void onDetachedFromWindow() {
@@ -143,12 +149,6 @@ public class FaceTextInputLayout extends LinearLayout {
     mFaceTextViewRightMargin =
         typedArray.getResourceId(R.styleable.FaceTextInputLayout_faceTextViewLeftMargin,
             DensityUtil.dip2px(getContext(), 2));
-
-    mFaceTextViewHeight =
-        typedArray.getResourceId(R.styleable.FaceTextInputLayout_faceTextViewLeftMargin,
-            DensityUtil.dip2px(getContext(), 48));
-
-    mFaceTextContainerLayoutParams = generateFaceTextContainerLayoutParams();
 
     typedArray.recycle();
   }
@@ -251,11 +251,23 @@ public class FaceTextInputLayout extends LinearLayout {
    * 生成每个“颜文字” item 对应的 layoutParams
    */
   private LinearLayout.LayoutParams generateFaceTextContainerLayoutParams() {
+
     LinearLayout.LayoutParams layoutParams =
-        new LinearLayout.LayoutParams(0, mFaceTextViewHeight, 1.0f);
+        new LinearLayout.LayoutParams(0, calculateFaceTextViewHeight(), 1.0F);
     layoutParams.leftMargin = mFaceTextViewLeftMargin;
     layoutParams.rightMargin = mFaceTextViewRightMargin;
     return layoutParams;
+  }
+
+  /**
+   * 计算“颜文字”的高度，父容器的高度减去竖直方向上的 padding（2 * 4dp）和底部的留白（8dp）
+   *
+   * @return “颜文字item”的高度
+   */
+  private int calculateFaceTextViewHeight() {
+    return getMeasuredHeight() / PAGE_MAX_LINE_NUM
+        - 2 * DensityUtil.dip2px(getContext(), 4.0F)
+        - DensityUtil.dip2px(getContext(), 8.0F);
   }
 
   /**
@@ -294,7 +306,7 @@ public class FaceTextInputLayout extends LinearLayout {
   }
 
   /**
-   * 测量 颜文字 的长度
+   * 测量“颜文字”的长度
    */
   private int measureFaceTextWidth(TextView faceTextView, FaceText faceText) {
     if (faceTextView == null || faceText == null) {
