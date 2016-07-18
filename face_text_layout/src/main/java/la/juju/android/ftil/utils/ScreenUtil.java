@@ -8,7 +8,9 @@ import android.util.DisplayMetrics;
  */
 public class ScreenUtil {
 
-  private static final String TAG = ScreenUtil.class.getSimpleName();
+  private ScreenUtil() {
+
+  }
 
   public static int getScreenWidth(Context context) {
     DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();

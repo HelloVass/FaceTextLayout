@@ -11,8 +11,6 @@
     <!-- 颜文字的属性-->
     <attr name="faceTextViewLeftMargin" format="dimension" />
     <attr name="faceTextViewRightMargin" format="dimension" />
-    <attr name="faceTextViewHeight" format="dimension" />
-
   </declare-styleable>
 
 </resources>

@@ -35,17 +35,17 @@ public class FaceTextInputLayout extends LinearLayout {
 
   private ViewPager mViewPager;
 
-  private DotViewLayout mDotViewLayout;
+  private DotViewLayout mDotViewLayout; // 底部指示器
+
+  private TextView mTargetFaceTextView; // 用于测量颜文字长度的“TextView”
 
   private MyPagerAdapter mMyPagerAdapter;
 
-  private int mFaceTextViewLeftMargin;
+  private int mFaceTextViewLeftMargin; // 颜文字左边距
 
-  private int mFaceTextViewRightMargin;
+  private int mFaceTextViewRightMargin; // 颜文字右边距
 
-  private LinearLayout.LayoutParams mFaceTextContainerLayoutParams;
-
-  private TextView mTargetFaceTextView; // 用于测量颜文字长度的“TextView”
+  private LinearLayout.LayoutParams mFaceTextContainerLayoutParams; // 颜文字容器的“LayoutParams”参数
 
   private FaceTextProvider mFaceTextProvider; // “颜文字source”接口
 
@@ -78,30 +78,25 @@ public class FaceTextInputLayout extends LinearLayout {
     mOnFaceTextClickListener = onFaceTextClickListener;
   }
 
-  public void updateUI() {
+  /**
+   * 渲染“UI”
+   */
+  public void render() {
 
-    // 利用 View 的 post 方法机智地获取 View 的高度
-    post(new Runnable() {
-      @Override public void run() {
+    // TODO: 生成页面在主线程，需要放到非 UI线程
+    List<RecyclerView> allPageList = generateAllPage();
+    mMyPagerAdapter.setFaceTextInputPageList(allPageList);
+    mViewPager.setAdapter(mMyPagerAdapter);
+    mDotViewLayout.setViewPager(mViewPager);
+  }
 
-        if (mFaceTextProvider == null) { // 如果用户未设置“颜文字source”,抛出异常
-          throw new IllegalStateException("mFaceTextProvider can't be null !!!");
-        }
-
-        mFaceTextContainerLayoutParams = generateFaceTextContainerLayoutParams();
-
-        // TODO: 生成页面在主线程，需要放到非 UI线程
-        List<RecyclerView> allPageList = generateAllPage();
-        mMyPagerAdapter.setFaceTextInputPageList(allPageList);
-        mViewPager.setOffscreenPageLimit(mMyPagerAdapter.getCount());
-        mViewPager.setAdapter(mMyPagerAdapter);
-        mDotViewLayout.setViewPager(mViewPager);
-      }
-    });
+  @Override protected void onAttachedToWindow() {
+    super.onAttachedToWindow();
   }
 
   @Override protected void onDetachedFromWindow() {
     super.onDetachedFromWindow();
+
     mFaceTextProvider = null;
     mOnFaceTextClickListener = null;
   }
@@ -114,9 +109,7 @@ public class FaceTextInputLayout extends LinearLayout {
 
     mViewPager = (ViewPager) findViewById(R.id.pager);
     mDotViewLayout = (DotViewLayout) findViewById(R.id.dotview_layout);
-
     mMyPagerAdapter = new MyPagerAdapter();
-    mTargetFaceTextView = inflateTargetFaceTextView();
 
     applyXMLAttributes(attrs, defStyleAttr, defStyleRes);
   }
@@ -177,8 +170,6 @@ public class FaceTextInputLayout extends LinearLayout {
     int currentLineNum = 0;
     // 列数
     int columnCount = 0;
-    // 行的长度
-    int lineWidth = 0;
 
     // 每页的 List
     List<List<FaceText>> pageFaceTextList = new ArrayList<>();
@@ -194,20 +185,17 @@ public class FaceTextInputLayout extends LinearLayout {
     for (int i = 0; i < faceTextList.size(); i++) {
       FaceText faceText = faceTextList.get(i);
 
-      int itemWidth = measureFaceTextWidth(mTargetFaceTextView, faceText)
+      int itemWidth = measureFaceTextWidth(inflateTargetFaceTextView(), faceText)
           + mFaceTextViewLeftMargin
           + mFaceTextViewRightMargin;
 
-      lineWidth += itemWidth;
       columnCount++;
       lineItemWidthList.add(itemWidth);
 
-      if (canPlaceMutipileItems(lineWidth, lineItemWidthList, columnCount) || canPlaceSingleItem(
-          columnCount, lineWidth)) {
+      if (canPlaceItems(columnCount, lineItemWidthList)) {
         lineFaceTextList.add(faceText);
       } else {
         currentLineNum++;
-        lineWidth = itemWidth;
         columnCount = 1;
 
         // 切换到下一个页面
@@ -240,7 +228,8 @@ public class FaceTextInputLayout extends LinearLayout {
 
     FaceTextInputLineAdapter faceTextInputLineAdapter = new FaceTextInputLineAdapter(getContext());
     faceTextInputLineAdapter.setPageFaceTextList(faceTextList);
-    faceTextInputLineAdapter.setFaceTextContainerLayoutParams(mFaceTextContainerLayoutParams);
+    faceTextInputLineAdapter.setFaceTextContainerLayoutParams(
+        generateFaceTextContainerLayoutParams());
     faceTextInputLineAdapter.setOnFaceTextClickListener(mOnFaceTextClickListener);
 
     recyclerView.setAdapter(faceTextInputLineAdapter);
@@ -251,12 +240,14 @@ public class FaceTextInputLayout extends LinearLayout {
    * 生成每个“颜文字” item 对应的 layoutParams
    */
   private LinearLayout.LayoutParams generateFaceTextContainerLayoutParams() {
+    if (mFaceTextContainerLayoutParams == null) {
+      mFaceTextContainerLayoutParams =
+          new LinearLayout.LayoutParams(0, calculateFaceTextViewHeight(), 1.0F);
+      mFaceTextContainerLayoutParams.leftMargin = mFaceTextViewLeftMargin;
+      mFaceTextContainerLayoutParams.rightMargin = mFaceTextViewRightMargin;
+    }
 
-    LinearLayout.LayoutParams layoutParams =
-        new LinearLayout.LayoutParams(0, calculateFaceTextViewHeight(), 1.0F);
-    layoutParams.leftMargin = mFaceTextViewLeftMargin;
-    layoutParams.rightMargin = mFaceTextViewRightMargin;
-    return layoutParams;
+    return mFaceTextContainerLayoutParams;
   }
 
   /**
@@ -265,44 +256,49 @@ public class FaceTextInputLayout extends LinearLayout {
    * @return “颜文字item”的高度
    */
   private int calculateFaceTextViewHeight() {
-    return getMeasuredHeight() / PAGE_MAX_LINE_NUM
+    return getLayoutParams().height / PAGE_MAX_LINE_NUM
         - 2 * DensityUtil.dip2px(getContext(), 4.0F)
         - DensityUtil.dip2px(getContext(), 8.0F);
   }
 
   /**
-   * 能否在单行中摆放
+   * 能否摆放颜文字“item”
    *
-   * @param columnCount 列数
-   * @param lineWidth 行宽
+   * @param columnCount 当前列数
    */
-  private boolean canPlaceSingleItem(int columnCount, int lineWidth) {
-    return columnCount == 1 && lineWidth > ScreenUtil.getScreenWidth(getContext());
-  }
+  private boolean canPlaceItems(int columnCount, List<Integer> lineItemWidthList) {
 
-  /**
-   * 能否在一行中摆放多个 item
-   */
-  private boolean canPlaceMutipileItems(int lineWidth, List<Integer> lineItemWidthList,
-      int columnCount) {
+    if (columnCount > PAGE_MAX_COLUMN_COUNT) { // 超出列数限制
+      return false;
+    }
+
+    int screenWidth = ScreenUtil.getScreenWidth(getContext());
+    int averageWidth = screenWidth / columnCount;
 
     for (int itemWidth : lineItemWidthList) {
-      if (itemWidth > ScreenUtil.getScreenWidth(getContext()) / columnCount) {
+
+      if (itemWidth > screenWidth) { // 颜文字长度超出屏幕宽度了
+        throw new IllegalArgumentException("item width is too long!!!");
+      }
+
+      if (itemWidth > averageWidth) { // 颜文字长度超出均分宽度了
         return false;
       }
     }
 
-    return lineWidth <= ScreenUtil.getScreenWidth(getContext())
-        && columnCount <= PAGE_MAX_COLUMN_COUNT;
+    return true;
   }
 
   /**
-   * 获取一个用于测量“颜文字”长度的 TextView
+   * 取一个用于测量“颜文字”长度的 TextView
    */
   private TextView inflateTargetFaceTextView() {
-    return (TextView) LayoutInflater.from(getContext())
-        .inflate(R.layout.wrapper_face_text, null)
-        .findViewById(R.id.tv_face_text);
+    if (mTargetFaceTextView == null) {
+      mTargetFaceTextView = (TextView) LayoutInflater.from(getContext())
+          .inflate(R.layout.wrapper_face_text, null)
+          .findViewById(R.id.tv_face_text);
+    }
+    return mTargetFaceTextView;
   }
 
   /**
@@ -313,7 +309,9 @@ public class FaceTextInputLayout extends LinearLayout {
       return 0;
     }
     faceTextView.setText(faceText.content);
-    faceTextView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+    int widthMeasureSpec = MeasureSpec.makeMeasureSpec((1 << 30) - 1, MeasureSpec.AT_MOST);
+    int heightMeasureSpec = MeasureSpec.makeMeasureSpec((1 << 30) - 1, MeasureSpec.AT_MOST);
+    faceTextView.measure(widthMeasureSpec, heightMeasureSpec);
     return faceTextView.getMeasuredWidth();
   }
 
